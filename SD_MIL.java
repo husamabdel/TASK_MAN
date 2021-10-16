@@ -1,10 +1,9 @@
 import java.util.Scanner;
-import java.util.Date;
+import java.util.Date; 	//Use date object if you want to fork, for data signature to sign in file!
 import java.io.*;
 public class SD_MIL {
 
 	//STOP complaining about the lack of documentation use the toString DAMMIT!
-	
 	public void fileOpen(String path, String data) throws IOException{
 		
 		FileWriter write = new FileWriter(path, true);
