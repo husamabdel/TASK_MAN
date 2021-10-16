@@ -2,9 +2,15 @@ import java.util.Scanner;
 import java.util.Date; 	//Use date object if you want to fork, for data signature to sign in file!
 import java.io.*;
 public class SD_MIL {
-
+	
+	String path, data;
+	
+	
+	
 	//STOP complaining about the lack of documentation use the toString DAMMIT!
 	public void fileOpen(String path, String data) throws IOException{
+		this.path = path;
+		this.data = data;
 		
 		FileWriter write = new FileWriter(path, true);
 		PrintWriter file = new PrintWriter(write);
@@ -12,16 +18,19 @@ public class SD_MIL {
 		file.close();
 	}
 
-	public void fileStart(String data1)throws IOException{
+	public void fileStart(String data)throws IOException{
+		
+		this.data = data;
 		
 		PrintWriter Outputfile = new PrintWriter("devyTEXT.txt");
-		Outputfile.println(data1);
+		Outputfile.println(data);
 		Outputfile.close();
 		
 	}
 	
 	public String IO_stream(String path, String task_data) throws FileNotFoundException {
-
+		this.path = path;
+		
 		File read = new File(path);
 		Scanner reader = new Scanner(read);
 		while(reader.hasNextLine()) {task_data = reader.nextLine();}
