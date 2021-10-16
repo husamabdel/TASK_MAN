@@ -1,9 +1,9 @@
 import java.util.Scanner;
-import java.util.Date;+
+import java.util.Date;
 import java.io.*;
 public class SD_MIL {
 
-	
+	//STOP complaining about the lack of documentation use the toString DAMMIT!
 	
 	public void fileOpen(String path, String data) throws IOException{
 		
