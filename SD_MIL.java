@@ -28,9 +28,9 @@ public class SD_MIL {
 		
 	}
 	
-	public String IO_stream(String path, String task_data) throws FileNotFoundException {
+	public String IO_stream(String path) throws FileNotFoundException {
 		this.path = path;
-		
+		String task_data;
 		File read = new File(path);
 		Scanner reader = new Scanner(read);
 		while(reader.hasNextLine()) {task_data = reader.nextLine();}
@@ -50,5 +50,4 @@ public class SD_MIL {
 		
 
 	}
-
 
