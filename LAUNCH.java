@@ -16,12 +16,13 @@ public class LAUNCH extends JFrame{
 	private JButton page2;
 	private JButton page3;
 	private JButton page4;
-	private JButton action;
+    private JButton action;
+    private JButton action2;
 	private JTextField text;
 	private int width = 750;
 	private int height = 500;
 	private String path;
-	
+	private static boolean flag;
 	//GUI Initializer
 	public LAUNCH() {
 		
@@ -36,7 +37,9 @@ public class LAUNCH extends JFrame{
     
     //HOTLINKS.
 	public void launcher() {
-		
+        
+        text = new JTextField(12);
+
         page = new JButton("New Ticket!");
         page.setBackground(Color.ORANGE);
         page.setForeground(Color.BLACK);
@@ -55,8 +58,10 @@ public class LAUNCH extends JFrame{
         action.addActionListener(new TASK_GET_TEXT_ARRAY());
         //Third Button Initialized, this is for the text file data.
 
-        text = new JTextField(12);
-
+        action2 = new JButton("Full Logs");
+        action2.setBackground(Color.WHITE);
+        action2.setForeground(Color.BLACK);
+        action2.addActionListener(new TASK_GET_TEXT_FILE());
 
         panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -66,7 +71,7 @@ public class LAUNCH extends JFrame{
 
 
     public static boolean PATH_DATA(){
-        boolean falg;
+
         String ans;
         ans = JOptionPane.showInputDialog("Are you a returning User? (y/n)");
         if(ans.equalsIgnoreCase("y") || ans.equalsIgnoreCase("yes")){ flag = true;}
@@ -83,18 +88,32 @@ public class LAUNCH extends JFrame{
         String ans;
         String data = text.getText();
         SD_MIL existingFile = new SD_MIL();
-        if(PATH_DATA() == true){
-        existingFile.fileStart(data);
-        }
-        else if(PATH_DATA() == false){
-            ans = JOptionPane.showInputDialog(null, "Would you like to start a new file?", "FILE_!", JOptionPane.OK_CANCEL_OPTION);
-            if(ans.equalsIgnoreCase("y") || and.equalsIgnoreCase("yes")){
-                existingFile.fileOpen("C:\\Users\\"+Username+"\\Documents\\TASK_DATA.txt", data);
+        if(PATH_DATA() == true) {existingFile.fileStart(data);}
+            else if(PATH_DATA() == false){
+                ans = JOptionPane.showInputDialog(null, "Would you like to start a new file?", "FILE_!", JOptionPane.OK_CANCEL_OPTION);
+                    if(ans.equalsIgnoreCase("y") || and.equalsIgnoreCase("yes")){
+                        existingFile.fileOpen("C:\\Users\\"+Username+"\\Documents\\TASK_DATA.txt", data);
+                        }
+                        else if(and.equalsIgnoreCase("n") || ans.equalsIgnoreCase("no")){
+                            JOptionPane.showMessageDialog(null, "warning! the program will now shut down!", "Warning!", JOptionPane.ERROR_MESSAGE);
+                            System.exit(0);
+                            }
+                        }
+                else{
+                System.exit(0);
+                }
             }
-        }
 
-    }
 
+    //How about an array of all the data?
+    
+    public void FUNCTION_ADD_ELEMENTS(String data, boolean addFlag){
+        ArrayList <String> datas = new ArrayList<>();
+            while(true){
+                datas.add(data);
+                    if(addFlag == false){ break; }
+                }
+            }
 
 
     //For the first Button.(Link)
@@ -131,6 +150,21 @@ public class LAUNCH extends JFrame{
 
         }
     }
+    //For the fouth button, To launch the TXT file.
+    private class TASK_GET_TEXT_FILE implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+
+            Desktop desktop = Desktop.getDesktop();
+            String User = System.getProperties(user.name);
+            File file = new File("C:\\Users\\"+User+"\\Desktop\\TODAY.txt");
+                if(file.exists()){
+                    desktop.open(file);
+                }
+                    else{
+                            JOptionPane.showMessageDialog(null, "Warning! File Does not Exist","", JOptionPane.ERROR_MESSAGE);
+                    }
+            }
+        }
 	//Why do I need to return a boolean when I can just check for file Existence? SMH
 	
 
