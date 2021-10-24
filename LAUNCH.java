@@ -5,13 +5,15 @@ import java.util.Date;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.*;
+import javax.swing.ImageIcon;
 import java.net.URI;
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.awt.desktop.*;
 import java.awt.*;
-public class TASK_LAUNCH extends JFrame{
+public class LAUNCH extends JFrame{
 
     //All variables, plan is to have a grid layout, three horizontal panels, middle has the ticket adder, bottom has HOTLINKS, Top has.. well.. no plan for that yet.
 	private JPanel panel;
@@ -29,16 +31,18 @@ public class TASK_LAUNCH extends JFrame{
 	private String path;
 	private static boolean flag;
 	//GUI Initializer constructor. 
-	public TASK_LAUNCH() {
+	public LAUNCH() {
+
 		
 		this.setTitle("Ticket Logger MIL");
 		this.setSize(width,height);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(true);
+        this.setResizable(false);
         this.setBackground(Color.RED);
         launcher();
-        add(panel);
+        this.add(panel);
         this.setVisible(true);
+		
 	}
     
     
@@ -46,42 +50,54 @@ public class TASK_LAUNCH extends JFrame{
     //HOTLINKS (Mostly label components).
 	public void launcher() {
         
+		ImageIcon icon = new ImageIcon("icon.png");
+		
         text = new JTextField(12);
-						/* 
+		label = new JLabel();
+		label.setText("To save the PCID or ticket number, please type the text in the text box and click \"SaveTicket\" ");
+		label.setIcon(icon);
+		label.setHorizontalTextPosition(JLabel.CENTER);
+		label.setVerticalTextPosition(JLabel.TOP);
+		
+		/* 
 						
 	TODO: Fix this f**king sh*t, the level of fustration is unbearable right now because
 	this f**king seBackground function will not fucking work. Why?
-						
+				
 						*/
+        
+        
         page = new JButton("New Ticket!");
-     //   page.setBackground(Color.ORANGE);
-     //   page.setForeground(Color.BLACK);
+        page.setBackground(Color.ORANGE);
+        page.setForeground(Color.BLACK);
         page.addActionListener(new service());
         //First Button Initialized..
 
         page2 = new JButton("Idaptive Page");
-    //    page2.setBackgroud(Color.GREEN);
-    //    page2.setForeground(Color.BLACK);
+        page2.setBackground(Color.GREEN);
+        page2.setForeground(Color.BLACK);
         page2.addActionListener(new idaptive());
         //Second Button Initialized.
 
         action = new JButton("ALL DATA");
-     //   action.setBackground(Color.BLACK);
-     //   action.seForeground(Color.BLACK);
+        action.setBackground(Color.BLACK);
+        action.setForeground(Color.WHITE);
         action.addActionListener(new TASK_GET_TEXT_ARRAY());
         //Third Button Initialized, this is for the text file data.
 
         action2 = new JButton("Full Logs");
-       // action2.setBackground(Color.WHITE);
-    //    action2.setForeground(Color.BLACK);
+        action2.setBackground(Color.WHITE);
+        action2.setForeground(Color.BLACK);
         action2.addActionListener(new TASK_GET_TEXT_FILE());
 
         addTicket = new JButton("Save Ticket");
-    //    addTicket.setBackground(Color.BLUE);
-    //    addTicket.setForeground(Color.BLACK);
+        addTicket.setBackground(Color.BLUE);
+        addTicket.setForeground(Color.BLACK);
         addTicket.addActionListener(new TASK_ADD_TICKET());
 
         panel = new JPanel();
+        panel.setBackground(Color.WHITE);
+        panel.add(label);
         panel.add(text);
         panel.add(page);
         panel.add(page2);
@@ -106,7 +122,6 @@ public class TASK_LAUNCH extends JFrame{
 
     //Uses boolean flag to determin path and data and how to use the NEW_TICKET object.
   /*  public void addTickets(){
-
         String username = System.getProperty("user.name");
         String ans;
         String data = text.getText();
@@ -133,7 +148,7 @@ public class TASK_LAUNCH extends JFrame{
     public void FUNCTION_ADD_ELEMENTS(String data, boolean addFlag){
         ArrayList <String> datas = new ArrayList <String>();
             while(true){
-                datas.add(data); //Don't know if this wil work...
+                datas.add(data); //Don't know if this will work...
                     if(addFlag == false){ break; }
                 }
             }
@@ -156,7 +171,7 @@ public class TASK_LAUNCH extends JFrame{
         public void actionPerformed(ActionEvent e){
             try{
                 URI Ilink = new URI("https://loc.my.idaptive.app");
-                java.awt.desktop.getDesktop().browse(Ilink);
+                java.awt.Desktop.getDesktop().browse(Ilink);
                 JOptionPane.showMessageDialog(null, "Idaptive Page Lauched!", "Webpage Message", JOptionPane.OK_OPTION);
             }
             catch(Exception x){
@@ -169,10 +184,17 @@ public class TASK_LAUNCH extends JFrame{
         public void actionPerformed(ActionEvent e){
 
             SD_MIL TASK_DATA = new SD_MIL();
-            JOptionPane.showMessageDialog(null, TASK_DATA.IO_stream(path));
-
-        }
+            if(PATH_DATA() == true) {
+            try {
+				JOptionPane.showMessageDialog(null, TASK_DATA.IO_stream(path));
+			} catch (HeadlessException | FileNotFoundException e1) {
+				//catch block
+				e1.printStackTrace();
+			}
+            	}
+            else {JOptionPane.showMessageDialog(null, "The File does not EXIST!", "Missing file error", JOptionPane.ERROR_MESSAGE);}
     }
+	}
     //For the fouth button, To launch the TXT file.
     private class TASK_GET_TEXT_FILE implements ActionListener{
         public void actionPerformed(ActionEvent e){
@@ -182,7 +204,12 @@ public class TASK_LAUNCH extends JFrame{
             user = System.getProperty("user.name");
             File file = new File("C:\\Users\\"+user+"\\Desktop\\TODAY.txt");
                 if(file.exists()){
-                    desktop.open(file);
+                    try {
+						desktop.open(file);
+					} catch (IOException e1) {
+						// catch block
+						e1.printStackTrace();
+					}
                 }
                     else{
                             JOptionPane.showMessageDialog(null, "Warning! File Does not Exist","", JOptionPane.ERROR_MESSAGE);
@@ -198,11 +225,21 @@ public class TASK_LAUNCH extends JFrame{
                     String ans;
                     String data = text.getText();
                     SD_MIL existingFile = new SD_MIL();
-                    if(PATH_DATA() == true) {existingFile.fileStart(data);}
+                    if(PATH_DATA() == true) {try {
+						existingFile.fileStart(data);
+					} catch (IOException e1) {
+						// catch block
+						e1.printStackTrace();
+					}}
                         else if(PATH_DATA() == false){
                             ans = JOptionPane.showInputDialog(null, "Would you like to start a new file?", "FILE_!", JOptionPane.OK_CANCEL_OPTION);
-                                if(ans.equalsIgnoreCase("y") || and.equalsIgnoreCase("yes")){
-                                    existingFile.fileOpen("C:\\Users\\"+username+"\\Documents\\TASK_DATA.txt", data);
+                                if(ans.equalsIgnoreCase("y") || ans.equalsIgnoreCase("yes")){
+                                    try {
+										existingFile.fileOpen("C:\\Users\\"+username+"\\Documents\\TASK_DATA.txt", data);
+									} catch (IOException e1) {
+										//catch block
+										e1.printStackTrace();
+									}
                                     }
                                     else if(ans.equalsIgnoreCase("n") || ans.equalsIgnoreCase("no")){
                                         JOptionPane.showMessageDialog(null, "warning! the program will now shut down!", "Warning!", JOptionPane.ERROR_MESSAGE);
@@ -220,8 +257,8 @@ public class TASK_LAUNCH extends JFrame{
 
 	public static void main(String[] args) {
 		PATH_DATA();
-        new TASK_LAUNCH();
-        //So far doe not work.. I DONT WANT TO WRITE UI's EVER AGAIN!!
+        new LAUNCH();
+        //So far does not work.. I DONT WANT TO WRITE UI's EVER AGAIN!!
 	}
 
 }
