@@ -11,7 +11,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.awt.desktop.*;
+import java.awt.Desktop.*;
 import java.awt.*;
 public class LAUNCH extends JFrame{
 
@@ -158,7 +158,7 @@ public class LAUNCH extends JFrame{
 	private class service implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
-			    URI link = new URI("https://loc.servicenowservices.com/nav_to.do?uri=%2Fincident.do%3Fsys_id%3D-1%26sysparm_query%3Dactive%3Dtrue%26sysparm_stack%3Dincident_list.do%3Fsysparm_query%3Dactive%3Dtrue");
+			    URI link = new URI("https://google.com");
                 java.awt.Desktop.getDesktop().browse(link);
 			    JOptionPane.showMessageDialog(null, "New Ticket Page launched!", "Webpage Message", JOptionPane.ERROR_MESSAGE);}
 			catch(Exception d){
@@ -170,7 +170,7 @@ public class LAUNCH extends JFrame{
 	private class idaptive implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
-                URI Ilink = new URI("https://loc.my.idaptive.app");
+                URI Ilink = new URI("https://google.com");
                 java.awt.Desktop.getDesktop().browse(Ilink);
                 JOptionPane.showMessageDialog(null, "Idaptive Page Lauched!", "Webpage Message", JOptionPane.OK_OPTION);
             }
@@ -184,9 +184,9 @@ public class LAUNCH extends JFrame{
         public void actionPerformed(ActionEvent e){
 
             SD_MIL TASK_DATA = new SD_MIL();
-            if(PATH_DATA() == true) {
+            if(flag == true) {
             try {
-				JOptionPane.showMessageDialog(null, TASK_DATA.IO_stream(path));
+				JOptionPane.showMessageDialog(null, TASK_DATA.IO_stream("C:\\Packages\\TASK_SD\\devyTEXT.txt"));
 			} catch (HeadlessException | FileNotFoundException e1) {
 				//catch block
 				e1.printStackTrace();
@@ -202,7 +202,7 @@ public class LAUNCH extends JFrame{
             String user;
             Desktop desktop = Desktop.getDesktop();
             user = System.getProperty("user.name");
-            File file = new File("C:\\Users\\"+user+"\\Desktop\\TODAY.txt");
+            File file = new File("C:\\Packages\\TASK_SD\\devyTEXT.txt");
                 if(file.exists()){
                     try {
 						desktop.open(file);
@@ -225,17 +225,17 @@ public class LAUNCH extends JFrame{
                     String ans;
                     String data = text.getText();
                     SD_MIL existingFile = new SD_MIL();
-                    if(PATH_DATA() == true) {try {
-						existingFile.fileStart(data);
+                    if(flag == true) {try {
+						existingFile.fileOpen("C:\\Packages\\TASK_SD\\devyTEXT.txt",data);
 					} catch (IOException e1) {
 						// catch block
 						e1.printStackTrace();
 					}}
-                        else if(PATH_DATA() == false){
+                        else if(flag == false){
                             ans = JOptionPane.showInputDialog(null, "Would you like to start a new file?", "FILE_!", JOptionPane.OK_CANCEL_OPTION);
                                 if(ans.equalsIgnoreCase("y") || ans.equalsIgnoreCase("yes")){
                                     try {
-										existingFile.fileOpen("C:\\Users\\"+username+"\\Documents\\TASK_DATA.txt", data);
+										existingFile.fileStart(data);
 									} catch (IOException e1) {
 										//catch block
 										e1.printStackTrace();
