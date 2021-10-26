@@ -1,3 +1,5 @@
+// VERSION: Beta v.1.0.3
+
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -25,8 +27,9 @@ public class LAUNCH extends JFrame{
     private JButton action;
     private JButton action2;
     private JButton addTicket;
+    private JButton adddate;
 	private JTextField text;
-	private int width = 750;
+	private int width = 650;
 	private int height = 500;
 	private String path;
 	private static boolean flag;
@@ -34,7 +37,7 @@ public class LAUNCH extends JFrame{
 	public LAUNCH() {
 
 		
-		this.setTitle("Ticket Logger MIL");
+		this.setTitle("Ticket Log");
 		this.setSize(width,height);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -53,6 +56,8 @@ public class LAUNCH extends JFrame{
 		ImageIcon icon = new ImageIcon("icon.png");
 		
         text = new JTextField(12);
+        
+
 		label = new JLabel();
 		label.setText("To save the PCID or ticket number, please type the text in the text box and click \"SaveTicket\" ");
 		label.setIcon(icon);
@@ -61,8 +66,8 @@ public class LAUNCH extends JFrame{
 		
 		/* 
 						
-	TODO: Fix this f**king sh*t, the level of fustration is unbearable right now because
-	this f**king seBackground function will not fucking work. Why?
+    TODO: Add a layout manager to align elements in a better position Must
+    also add more buttons, maybe with custom Icons.
 				
 						*/
         
@@ -95,20 +100,26 @@ public class LAUNCH extends JFrame{
         addTicket.setForeground(Color.BLACK);
         addTicket.addActionListener(new TASK_ADD_TICKET());
 
+        adddate = new JButton("WITH DATE");
+        adddate.setBackground(Color.BLUE);
+        adddate.setForeground(Color.WHITE);
+        adddate.addActionListener(new TASK_ADD_TICKET_DATE());
+
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
         panel.add(label);
-        panel.add(text);
         panel.add(page);
         panel.add(page2);
         panel.add(action);
         panel.add(action2);
         panel.add(addTicket);
+        panel.add(adddate);
+        panel.add(text);
 		
 	}
     
 
-
+//This function Uses a boolean flag to determin path_data and how to use the NEW_TICKET button.
     public static boolean PATH_DATA(){
 
         String ans;
@@ -120,8 +131,10 @@ public class LAUNCH extends JFrame{
 
 
 
-    //Uses boolean flag to determin path and data and how to use the NEW_TICKET object.
-  /*  public void addTickets(){
+    
+ 
+ 
+    /*  public void addTickets(){
         String username = System.getProperty("user.name");
         String ans;
         String data = text.getText();
@@ -158,7 +171,7 @@ public class LAUNCH extends JFrame{
 	private class service implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
-			    URI link = new URI("https://google.com");
+			    URI link = new URI("https://loc.servicenowservices.com/nav_to.do?uri=%2Fincident.do%3Fsys_id%3D-1%26sysparm_query%3Dactive%3Dtrue%26sysparm_stack%3Dincident_list.do%3Fsysparm_query%3Dactive%3Dtrue");
                 java.awt.Desktop.getDesktop().browse(link);
 			    JOptionPane.showMessageDialog(null, "New Ticket Page launched!", "Webpage Message", JOptionPane.ERROR_MESSAGE);}
 			catch(Exception d){
@@ -170,7 +183,7 @@ public class LAUNCH extends JFrame{
 	private class idaptive implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
-                URI Ilink = new URI("https://google.com");
+                URI Ilink = new URI("https://loc.my.idaptive.app/my#TXlBcHBz");
                 java.awt.Desktop.getDesktop().browse(Ilink);
                 JOptionPane.showMessageDialog(null, "Idaptive Page Lauched!", "Webpage Message", JOptionPane.OK_OPTION);
             }
@@ -216,7 +229,7 @@ public class LAUNCH extends JFrame{
                     }
             }
         }
-
+        // Button that appends data to the file.
         private class TASK_ADD_TICKET implements ActionListener{
             public void actionPerformed(ActionEvent e){
                 
@@ -249,9 +262,44 @@ public class LAUNCH extends JFrame{
                             else{
                             System.exit(0);
                             }
-                        
+                        }  
             }
-        }
+
+            private class TASK_ADD_TICKET_DATE implements ActionListener{
+                public void actionPerformed(ActionEvent e){
+                    
+                        Date date = new Date();
+                        String username = System.getProperty("user.name");
+                        String ans;
+                        String data = text.getText();
+                        SD_MIL existingFile = new SD_MIL();
+                        if(flag == true) {try {
+                            existingFile.fileOpen("C:\\Packages\\TASK_SD\\devyTEXT.txt",username + ":- " + data + "\t\t- " + date.toString());
+                        } catch (IOException e1) {
+                            // catch block
+                            e1.printStackTrace();
+                        }}
+                            else if(flag == false){
+                                ans = JOptionPane.showInputDialog(null, "Would you like to start a new file?", "FILE_!", JOptionPane.OK_CANCEL_OPTION);
+                                    if(ans.equalsIgnoreCase("y") || ans.equalsIgnoreCase("yes")){
+                                        try {
+                                            existingFile.fileStart(data);
+                                        } catch (IOException e1) {
+                                            //catch block
+                                            e1.printStackTrace();
+                                        }
+                                        }
+                                        else if(ans.equalsIgnoreCase("n") || ans.equalsIgnoreCase("no")){
+                                            JOptionPane.showMessageDialog(null, "warning! the program will now shut down!", "Warning!", JOptionPane.ERROR_MESSAGE);
+                                            System.exit(0);
+                                            }
+                                        }
+                                else{
+                                System.exit(0);
+                                }
+                            }                   
+                }
+        
 	//Why do I need to return a boolean when I can just check for file Existence? SMH
 	
 
@@ -259,6 +307,7 @@ public class LAUNCH extends JFrame{
 		PATH_DATA();
         new LAUNCH();
         //So far does not work.. I DONT WANT TO WRITE UI's EVER AGAIN!!
+        
 	}
+        }
 
-}
