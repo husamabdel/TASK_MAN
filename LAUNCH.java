@@ -1,10 +1,17 @@
 // VERSION: Beta v.1.0.3
 
-
+import java.util.Properties;
+//import javax.mail.Message;
+//import javax.mail.MessagingException;
+//import javax.mail.PasswordAuthentication;
+//import javax.mail.Session;
+//import javax.mail.Transport;
+//import javax.mail.internet.InternetAddress;
+//import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
-import java.util.Scanner;
+//import java.util.Scanner;
 import java.util.Date;
-import java.util.Random;
+//import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.*;
 import javax.swing.ImageIcon;
@@ -15,6 +22,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.awt.Desktop.*;
 import java.awt.*;
+
+
 public class LAUNCH extends JFrame{
 
     //All variables, plan is to have a grid layout, three horizontal panels, middle has the ticket adder, bottom has HOTLINKS, Top has.. well.. no plan for that yet.
@@ -47,7 +56,7 @@ public class LAUNCH extends JFrame{
         this.setVisible(true);
 		
 	}
-    
+
     
     
     //HOTLINKS (Mostly label components).
@@ -84,6 +93,12 @@ public class LAUNCH extends JFrame{
         page2.addActionListener(new idaptive());
         //Second Button Initialized.
 
+        page3 = new JButton("Assigned Tickets");
+        page3.setBackground(Color.ORANGE);
+        page3.setForeground(Color.BLACK);
+        page3.addActionListener(new AllTickets());
+        //Opens all Assigned tickets.
+
         action = new JButton("ALL DATA");
         action.setBackground(Color.BLACK);
         action.setForeground(Color.WHITE);
@@ -107,6 +122,7 @@ public class LAUNCH extends JFrame{
 
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
+        panel.add(page3);
         panel.add(label);
         panel.add(page);
         panel.add(page2);
@@ -186,6 +202,19 @@ public class LAUNCH extends JFrame{
                 URI Ilink = new URI("https://loc.my.idaptive.app/my#TXlBcHBz");
                 java.awt.Desktop.getDesktop().browse(Ilink);
                 JOptionPane.showMessageDialog(null, "Idaptive Page Lauched!", "Webpage Message", JOptionPane.OK_OPTION);
+            }
+            catch(Exception x){
+                x.printStackTrace();
+            }
+        }
+    }
+
+    private class AllTickets implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            try{
+                URI Ilink = new URI("https://loc.servicenowservices.com/nav_to.do?uri=%2F$pa_dashboard.do%3Fsysparm_dashboard%3D1157e7c01b89a050bbd1a8eae54bcb02%26sysparm_tab%3D91576bc01b89a050bbd1a8eae54bcb9a");
+                java.awt.Desktop.getDesktop().browse(Ilink);
+                JOptionPane.showMessageDialog(null, "All Assigned tickets!", "Webpage Message", JOptionPane.OK_OPTION);
             }
             catch(Exception x){
                 x.printStackTrace();
@@ -302,6 +331,66 @@ public class LAUNCH extends JFrame{
         
 	//Why do I need to return a boolean when I can just check for file Existence? SMH
 	
+
+                //Below is an email bot to send messages, Might add that button if permission is given.
+
+            /*    
+                public void EMAIL_BOT(String data){
+
+                    this.data = data;
+
+                    String Dest;
+                    Dest = JOptionPane.showInputDialog("Who would you like to message?");
+              
+                    Date date = new Date();
+
+                    String Sub_date;
+                    Subject = date.toString();
+              
+                    String sub_Message;
+                    sub_Message = data;
+              
+              
+              
+              
+                    String sendrmailid = "example@gmail.com";
+                    final String uname = "email";
+                    final String pwd = "pass";
+              
+                    //Add SMPT server, port number
+                    Properties propvls = new Properties();
+                    propvls.put("mail.smtp.auth", "true");
+                    propvls.put("mail.smtp.starttls.enable", "true");
+                    propvls.put("mail.smtp.host", "smtp.gmail.com");
+                    propvls.put("mail.smpt.port", "25");
+              
+                    Session sessionobj = Session.getInstance(propvls,
+                       new javax.mail.Authenticator()
+                       {
+                          protected PasswordAuthentication getPasswordAuthentication()
+                          {
+                             return new PasswordAuthentication(uname, pwd);
+                          }
+                       });
+              
+                    try 
+                    {
+                       Message messageobj = new MimeMessage(sessionobj);
+                       messageobj.setFrom(new InternetAddress(sendrmailid));
+                                                                                                            messageobj.setRecipients(Message.RecipientType.TO,InternetAddress.parse(Dest));
+                   messageobj.setSubject();
+                   messageobj.setText(sub_message);
+              
+                   Transport.send(messageobj);
+                   JOptionPane.showMessageDialog(null, "Your email sent successfully....", "Email Confirmation", JOptionPane.OK_OPTION);
+                } 
+                catch (MessagingException exp) 
+                {
+                   throw new RuntimeException(exp);
+                }
+
+                }
+                    */
 
 	public static void main(String[] args) {
 		PATH_DATA();
