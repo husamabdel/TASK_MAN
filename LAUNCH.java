@@ -1,4 +1,4 @@
-// VERSION: Beta v.1.0.3
+// VERSION: Beta v.1.0.4
 
 import java.util.Properties;
 //import javax.mail.Message;
@@ -11,10 +11,10 @@ import java.util.Properties;
 import java.util.ArrayList;
 //import java.util.Scanner;
 import java.util.Date;
+
 //import java.util.Random;
-import javax.swing.JOptionPane;
 import javax.swing.*;
-import javax.swing.ImageIcon;
+
 import java.net.URI;
 import java.awt.event.*;
 import java.io.File;
@@ -27,19 +27,26 @@ import java.awt.*;
 public class LAUNCH extends JFrame{
 
     //All variables, plan is to have a grid layout, three horizontal panels, middle has the ticket adder, bottom has HOTLINKS, Top has.. well.. no plan for that yet.
-	private JPanel panel;
+    private JPanel panel;
+    private JPanel panel2;
+    private JPanel panel3;
+    private JPanel panel4;
+    private JPanel panel5;
+
+
 	private JLabel label;
 	private JButton page;
 	private JButton page2;
 	private JButton page3;
-	private JButton page4;
+    private JButton more;
+    private JButton info;
     private JButton action;
     private JButton action2;
     private JButton addTicket;
     private JButton adddate;
 	private JTextField text;
-	private int width = 650;
-	private int height = 500;
+	private int width = 700;
+	private int height = 550;
 	private String path;
 	private static boolean flag;
 	//GUI Initializer constructor. 
@@ -51,8 +58,17 @@ public class LAUNCH extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setBackground(Color.RED);
+        this.setLayout(new BorderLayout());
         launcher();
-        this.add(panel);
+
+        //first panel center component, has text feild 2 buttons and the LOC logo.
+        this.add(panel, BorderLayout.CENTER);
+        //Secone panel, this has 3 buttons, includes the idaptive page and all service now buttons.
+        this.add(panel2, BorderLayout.NORTH);
+        this.add(panel3, BorderLayout.SOUTH);
+        this.add(panel4, BorderLayout.EAST);
+        this.add(panel5, BorderLayout.WEST);
+
         this.setVisible(true);
 		
 	}
@@ -112,7 +128,7 @@ public class LAUNCH extends JFrame{
 
         addTicket = new JButton("Save Ticket");
         addTicket.setBackground(Color.BLUE);
-        addTicket.setForeground(Color.BLACK);
+        addTicket.setForeground(Color.white);
         addTicket.addActionListener(new TASK_ADD_TICKET());
 
         adddate = new JButton("WITH DATE");
@@ -120,29 +136,69 @@ public class LAUNCH extends JFrame{
         adddate.setForeground(Color.WHITE);
         adddate.addActionListener(new TASK_ADD_TICKET_DATE());
 
+        more = new JButton("links");
+        info = new JButton("Help?");
+        info.addActionListener(new TASK_GET_INFO_FILE());
+
+        //Central panel
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
-        panel.add(page3);
+        //panel.add(page3); *
         panel.add(label);
-        panel.add(page);
-        panel.add(page2);
-        panel.add(action);
-        panel.add(action2);
+        //panel.add(page); *
+        //panel.add(page2); *
+        //panel.add(action);
+        //panel.add(action2);
         panel.add(addTicket);
         panel.add(adddate);
         panel.add(text);
-		
+        
+        //North Panel
+        panel2 = new JPanel();
+        panel2.setBackground(Color.ORANGE);
+        panel2.add(page);
+        panel2.add(page2);
+        panel2.add(page3);
+
+
+        //South panel
+        panel3 = new JPanel();
+        panel3.setBackground(Color.ORANGE);
+        panel3.add(action);
+        panel3.add(action2);
+
+        //East Panel
+        panel4 = new JPanel();
+        panel4.setBackground(Color.GRAY);
+        panel4.add(more);
+
+        //West panel.
+        panel5 = new JPanel();
+        panel5.setBackground(Color.GRAY);
+        panel5.add(info);
+
+
 	}
     
 
 //This function Uses a boolean flag to determin path_data and how to use the NEW_TICKET button.
     public static boolean PATH_DATA(){
 
-        String ans;
-        ans = JOptionPane.showInputDialog("Are you a returning User? (y/n)");
-        if(ans.equalsIgnoreCase("y") || ans.equalsIgnoreCase("yes")){ flag = true;}
-            else{flag = false;}
-            return flag;
+        int ans;
+        ans = JOptionPane.showConfirmDialog(null, "Are you a returning user?", "Confirmation dialog", JOptionPane.YES_NO_CANCEL_OPTION);
+
+        if(ans == 0){
+             flag = true;
+      }     
+            else if(ans == -1){ System.exit(0);}
+            else{flag = false;}    
+
+
+        //String ans;
+        //ans = JOptionPane.showInputDialog("Are you a returning User? (y/n)");
+       // if(ans.equalsIgnoreCase("y") || ans.equalsIgnoreCase("yes")){ flag = true;}
+          //  else{flag = false;}
+        return flag;
     }
 
 
@@ -258,6 +314,28 @@ public class LAUNCH extends JFrame{
                     }
             }
         }
+
+        private class TASK_GET_INFO_FILE implements ActionListener{
+            public void actionPerformed(ActionEvent e){
+    
+                String user;
+                Desktop desktop = Desktop.getDesktop();
+                user = System.getProperty("user.name");
+                File file = new File("C:\\Packages\\TASK_SD\\README.txt");
+                    if(file.exists()){
+                        try {
+                            desktop.open(file);
+                        } catch (IOException e1) {
+                            // catch block
+                            e1.printStackTrace();
+                        }
+                    }
+                        else{
+                                JOptionPane.showMessageDialog(null, "Warning! File Does not Exist","", JOptionPane.ERROR_MESSAGE);
+                        }
+                }
+            }
+
         // Button that appends data to the file.
         private class TASK_ADD_TICKET implements ActionListener{
             public void actionPerformed(ActionEvent e){
@@ -340,7 +418,7 @@ public class LAUNCH extends JFrame{
                     this.data = data;
 
                     String Dest;
-                    Dest = JOptionPane.showInputDialog("Who would you like to message?");
+                    Dest = JOptionPane.showInputDialog("Who would you like to EMAIL?");
               
                     Date date = new Date();
 
@@ -353,15 +431,15 @@ public class LAUNCH extends JFrame{
               
               
               
-                    String sendrmailid = "example@gmail.com";
-                    final String uname = "email";
+                    String sendrmailid = "habdalla@loc.gov";
+                    final String uname = "habdalla";
                     final String pwd = "pass";
               
                     //Add SMPT server, port number
                     Properties propvls = new Properties();
                     propvls.put("mail.smtp.auth", "true");
                     propvls.put("mail.smtp.starttls.enable", "true");
-                    propvls.put("mail.smtp.host", "smtp.gmail.com");
+                    propvls.put("mail.smtp.host", "smtp.lib.loc.gov");
                     propvls.put("mail.smpt.port", "25");
               
                     Session sessionobj = Session.getInstance(propvls,
@@ -377,7 +455,7 @@ public class LAUNCH extends JFrame{
                     {
                        Message messageobj = new MimeMessage(sessionobj);
                        messageobj.setFrom(new InternetAddress(sendrmailid));
-                                                                                                            messageobj.setRecipients(Message.RecipientType.TO,InternetAddress.parse(Dest));
+                   messageobj.setRecipients(Message.RecipientType.TO,InternetAddress.parse(Dest));
                    messageobj.setSubject();
                    messageobj.setText(sub_message);
               
@@ -395,7 +473,7 @@ public class LAUNCH extends JFrame{
 	public static void main(String[] args) {
 		PATH_DATA();
         new LAUNCH();
-        //So far does not work.. I DONT WANT TO WRITE UI's EVER AGAIN!!
+        //So far does not work
         
 	}
         }
