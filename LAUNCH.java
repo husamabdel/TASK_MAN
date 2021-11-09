@@ -63,7 +63,7 @@ public class LAUNCH extends JFrame{
 
         //first panel center component, has text feild 2 buttons and the LOC logo.
         this.add(panel, BorderLayout.CENTER);
-        //Secone panel, this has 3 buttons, includes the idaptive page and all service now buttons.
+        //Secone panel, frame has 3 buttons, includes the idaptive page and all service now buttons.
         this.add(panel2, BorderLayout.NORTH);
         this.add(panel3, BorderLayout.SOUTH);
         this.add(panel4, BorderLayout.EAST);
@@ -81,7 +81,8 @@ public class LAUNCH extends JFrame{
 		ImageIcon icon = new ImageIcon("icon.png");
 		
         text = new JTextField(12);
-        
+        text.setBackground(Color.BLACK);
+        text.setForeground(Color.WHITE);
 
 		label = new JLabel();
 		label.setText("To save the PCID or ticket number, please type the text in the text box and click \"SaveTicket\" ");
@@ -119,7 +120,7 @@ public class LAUNCH extends JFrame{
         action.setBackground(Color.BLACK);
         action.setForeground(Color.WHITE);
         action.addActionListener(new TASK_GET_TEXT_ARRAY());
-        //Third Button Initialized, this is for the text file data.
+        //Third Button Initialized, frame is for the text file data.
 
         action2 = new JButton("Full Logs");
         action2.setBackground(Color.WHITE);
@@ -137,6 +138,8 @@ public class LAUNCH extends JFrame{
         adddate.addActionListener(new TASK_ADD_TICKET_DATE());
 
         more = new JButton("links");
+        more.addActionListener(new TASK_NEW_LINK());
+
         info = new JButton("Help?");
         info.addActionListener(new TASK_GET_INFO_FILE());
 
@@ -181,7 +184,7 @@ public class LAUNCH extends JFrame{
 	}
     
 
-//This function Uses a boolean flag to determin path_data and how to use the NEW_TICKET button.
+//frame function Uses a boolean flag to determin path_data and how to use the NEW_TICKET button.
     public static boolean PATH_DATA(){
 
         int ans;
@@ -233,7 +236,7 @@ public class LAUNCH extends JFrame{
     public void FUNCTION_ADD_ELEMENTS(String data, boolean addFlag){
         ArrayList <String> datas = new ArrayList <String>();
             while(true){
-                datas.add(data); //Don't know if this will work...
+                datas.add(data); //Don't know if frame will work...
                     if(addFlag == false){ break; }
                 }
             }
@@ -407,6 +410,17 @@ public class LAUNCH extends JFrame{
                             }                   
                 }
         
+
+                private class TASK_NEW_LINK implements ActionListener{
+
+                    public void actionPerformed(ActionEvent e){
+
+                        new LINK();
+
+                    }
+
+                }
+
 	//Why do I need to return a boolean when I can just check for file Existence? SMH
 	
 
@@ -415,7 +429,7 @@ public class LAUNCH extends JFrame{
             /*    
                 public void EMAIL_BOT(String data){
 
-                    this.data = data;
+                    frame.data = data;
 
                     String Dest;
                     Dest = JOptionPane.showInputDialog("Who would you like to EMAIL?");
