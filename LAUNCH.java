@@ -11,10 +11,10 @@ import java.util.Properties;
 import java.util.ArrayList;
 //import java.util.Scanner;
 import java.util.Date;
-
+import java.util.Scanner;
 //import java.util.Random;
 import javax.swing.*;
-
+import javax.swing.border.*;
 import java.net.URI;
 import java.awt.event.*;
 import java.io.File;
@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.awt.Desktop.*;
 import java.awt.*;
-
+import javax.swing.BorderFactory;
 
 public class LAUNCH extends JFrame{
 
@@ -32,8 +32,6 @@ public class LAUNCH extends JFrame{
     private JPanel panel3;
     private JPanel panel4;
     private JPanel panel5;
-
-
 	private JLabel label;
 	private JButton page;
 	private JButton page2;
@@ -48,7 +46,8 @@ public class LAUNCH extends JFrame{
 	private int width = 700;
 	private int height = 550;
 	private String path;
-	private static boolean flag;
+    private static boolean flag;
+    private static ArrayList <String> element = new ArrayList<String>();
 	//GUI Initializer constructor. 
 	public LAUNCH() {
 
@@ -60,6 +59,7 @@ public class LAUNCH extends JFrame{
         this.setBackground(Color.RED);
         this.setLayout(new BorderLayout());
         launcher();
+
 
         //first panel center component, has text feild 2 buttons and the LOC logo.
         this.add(panel, BorderLayout.CENTER);
@@ -78,11 +78,14 @@ public class LAUNCH extends JFrame{
     //HOTLINKS (Mostly label components).
 	public void launcher() {
         
+        Border border = BorderFactory.createLineBorder(Color.black,3);
+
 		ImageIcon icon = new ImageIcon("icon.png");
 		
         text = new JTextField(12);
         text.setBackground(Color.BLACK);
         text.setForeground(Color.WHITE);
+        text.setCaretColor(Color.GREEN);
 
 		label = new JLabel();
 		label.setText("To save the PCID or ticket number, please type the text in the text box and click \"SaveTicket\" ");
@@ -156,30 +159,32 @@ public class LAUNCH extends JFrame{
         panel.add(adddate);
         panel.add(text);
         
+        
         //North Panel
         panel2 = new JPanel();
         panel2.setBackground(Color.ORANGE);
         panel2.add(page);
         panel2.add(page2);
         panel2.add(page3);
-
+        panel2.setBorder(border);
 
         //South panel
         panel3 = new JPanel();
         panel3.setBackground(Color.ORANGE);
         panel3.add(action);
         panel3.add(action2);
+        panel3.setBorder(border);
 
         //East Panel
         panel4 = new JPanel();
         panel4.setBackground(Color.GRAY);
         panel4.add(more);
-
+        panel4.setBorder(border);
         //West panel.
         panel5 = new JPanel();
         panel5.setBackground(Color.GRAY);
         panel5.add(info);
-
+        panel5.setBorder(border);
 
 	}
     
@@ -231,15 +236,46 @@ public class LAUNCH extends JFrame{
             }
                 */
 
-    //How about an array of all the data i want to append?
+    //
     
-    public void FUNCTION_ADD_ELEMENTS(String data, boolean addFlag){
+   /*
+   
+   Defunked function, no longer in use! 11/17/2021
+
+   public void FUNCTION_ADD_ELEMENTS(String data, boolean addFlag){
         ArrayList <String> datas = new ArrayList <String>();
             while(true){
                 datas.add(data); //Don't know if frame will work...
                     if(addFlag == false){ break; }
                 }
             }
+            */
+
+
+            //Funtion to add a dynamic data structure to load all previous data. Will be used for later implementation.
+    public static void FUNCTION_LOAD_ELEMENTS(){
+
+            
+        try {
+            File file = new File("devyTEXT.txt");
+            Scanner open = new Scanner(file);
+            int i = 0;
+        while(open.hasNextLine()){
+            
+            element.add(open.nextLine());
+
+            i++;
+        }
+
+        
+        } catch (Exception e) {
+            
+            JOptionPane.showMessageDialog(null, "The System could not find the specified file!", "FileNotFoundException!", JOptionPane.ERROR_MESSAGE);
+
+        }
+            
+
+    }        
 
 
     //For the first Button.(Link)
@@ -485,7 +521,8 @@ public class LAUNCH extends JFrame{
                     */
 
 	public static void main(String[] args) {
-		PATH_DATA();
+        PATH_DATA();
+        FUNCTION_LOAD_ELEMENTS();
         new LAUNCH();
         //So far does not work
         
