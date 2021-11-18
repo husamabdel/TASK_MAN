@@ -45,7 +45,7 @@ public class LAUNCH extends JFrame{
 	private JTextField text;
 	private int width = 700;
 	private int height = 550;
-	private String path;
+    private String path; //Will be used along with file select.
     private static boolean flag;
     private static ArrayList <String> element = new ArrayList<String>();
 	//GUI Initializer constructor. 
@@ -275,7 +275,25 @@ public class LAUNCH extends JFrame{
         }
             
 
-    }        
+    }
+    // Sequential search algorithm. Will need to be changed later on..
+    public static void FUNCTION_QUERY_ARRAYLIST(String QUERY){
+
+        boolean b = true;
+        for(int x = 0; x < element.size(); x++){
+
+            if(element.get(x).contains(QUERY)){
+                JOptionPane.showMessageDialog(null, "The element " + QUERY+ " was found in the program data.", "True", JOptionPane.INFORMATION_MESSAGE);
+            }
+                else{ b = false;}
+
+        }
+
+        if(b == false){
+            JOptionPane.showMessageDialog(null, "The search query could not find the requested element ", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
 
 
     //For the first Button.(Link)
