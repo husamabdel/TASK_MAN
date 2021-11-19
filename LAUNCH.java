@@ -22,7 +22,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.awt.Desktop.*;
 import java.awt.*;
-import javax.swing.BorderFactory;
 
 public class LAUNCH extends JFrame{
 
@@ -44,7 +43,8 @@ public class LAUNCH extends JFrame{
     private JButton adddate;
 	private JTextField text;
 	private int width = 700;
-	private int height = 550;
+    private int height = 550;
+    private JMenuBar bar = new JMenuBar();
     private String path; //Will be used along with file select.
     private static boolean flag;
     private static ArrayList <String> element = new ArrayList<String>();
@@ -68,7 +68,9 @@ public class LAUNCH extends JFrame{
         this.add(panel3, BorderLayout.SOUTH);
         this.add(panel4, BorderLayout.EAST);
         this.add(panel5, BorderLayout.WEST);
-
+        
+        
+        this.setJMenuBar(bar);
         this.setVisible(true);
 		
 	}
@@ -78,6 +80,20 @@ public class LAUNCH extends JFrame{
     //HOTLINKS (Mostly label components).
 	public void launcher() {
         
+        JMenu Helpme = new JMenu("Help?"); 
+        JMenu filMenu = new JMenu("File");
+        JMenu find = new JMenu("Find");
+        bar.add(filMenu);
+        bar.add(find);
+        bar.add(Helpme);
+
+        JMenuItem findItem = new JMenuItem("Find");
+
+        findItem.addActionListener(new FUNCTION_ADD_MENU_QUERY());
+
+        find.add(findItem);
+
+
         Border border = BorderFactory.createLineBorder(Color.black,3);
 
 		ImageIcon icon = new ImageIcon("icon.png");
@@ -279,21 +295,44 @@ public class LAUNCH extends JFrame{
     // Sequential search algorithm. Will need to be changed later on..
     public static void FUNCTION_QUERY_ARRAYLIST(String QUERY){
 
+        int num = 0;
         boolean b = true;
         for(int x = 0; x < element.size(); x++){
 
+            num++;
             if(element.get(x).contains(QUERY)){
-                JOptionPane.showMessageDialog(null, "The element " + QUERY+ " was found in the program data.", "True", JOptionPane.INFORMATION_MESSAGE);
+                b = true;
+                break;
             }
                 else{ b = false;}
 
+
         }
+
 
         if(b == false){
             JOptionPane.showMessageDialog(null, "The search query could not find the requested element ", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
+        else{
+            JOptionPane.showMessageDialog(null, "The element " + element.get(num-1) + " was found in the program data.", "True", JOptionPane.INFORMATION_MESSAGE);
+        }
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     //For the first Button.(Link)
@@ -401,6 +440,7 @@ public class LAUNCH extends JFrame{
                     String username = System.getProperty("user.name");
                     String ans;
                     String data = text.getText();
+                    element.add(data);
                     SD_MIL existingFile = new SD_MIL();
                     if(flag == true) {try {
 						existingFile.fileOpen("C:\\Packages\\TASK_SD\\devyTEXT.txt",data);
@@ -436,6 +476,7 @@ public class LAUNCH extends JFrame{
                         String username = System.getProperty("user.name");
                         String ans;
                         String data = text.getText();
+                        element.add(data);
                         SD_MIL existingFile = new SD_MIL();
                         if(flag == true) {try {
                             existingFile.fileOpen("C:\\Packages\\TASK_SD\\devyTEXT.txt",username + ":- " + data + "\t\t- " + date.toString());
@@ -463,6 +504,22 @@ public class LAUNCH extends JFrame{
                                 }
                             }                   
                 }
+
+                // Linear Search function is called in, listener will be added to "find"
+                private class FUNCTION_ADD_MENU_QUERY implements ActionListener{
+
+                    public void actionPerformed(ActionEvent e){
+
+                        String TEXT_QUERY;
+
+                        TEXT_QUERY = JOptionPane.showInputDialog("Please enter the text you wish to query:");
+
+                        FUNCTION_QUERY_ARRAYLIST(TEXT_QUERY);
+
+                    }
+
+                }
+
         
 
                 private class TASK_NEW_LINK implements ActionListener{
