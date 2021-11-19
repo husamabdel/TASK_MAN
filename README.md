@@ -9,7 +9,7 @@
 	CONTACT (habdalla@loc.gov, Husamabdalla98@gmail.com) for suggestions or to report Bugs.
 
 
-##Could not create Executable JAR file because i do not have eclipse :(##
+##create Executable JAR file to use, modify prior to that so you can have the links and programs you need set##
 	
 ###################################################################################
 #			        *INSTRUCTIONS*					  #
