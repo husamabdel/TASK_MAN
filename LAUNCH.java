@@ -135,7 +135,7 @@ public class LAUNCH extends JFrame{
         page3.addActionListener(new AllTickets());
         //Opens all Assigned tickets.
 
-        action = new JButton("ALL DATA");
+        action = new JButton("Last Appended");
         action.setBackground(Color.BLACK);
         action.setForeground(Color.WHITE);
         action.addActionListener(new TASK_GET_TEXT_ARRAY());
