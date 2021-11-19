@@ -16,6 +16,7 @@ import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.net.URI;
+import java.nio.file.Path;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,7 +46,8 @@ public class LAUNCH extends JFrame{
 	private int width = 700;
     private int height = 550;
     private JMenuBar bar = new JMenuBar();
-    private String path; //Will be used along with file select.
+    private static File path; //Will be used along with file select.
+    private static String pathFile;
     private static boolean flag;
     private static ArrayList <String> element = new ArrayList<String>();
 	//GUI Initializer constructor. 
@@ -80,6 +82,9 @@ public class LAUNCH extends JFrame{
     //HOTLINKS (Mostly label components).
 	public void launcher() {
         
+        pathFile = "C:\\Packages\\TASK_SD\\devyTEXT.txt"; //Default File Path
+        path = new File(pathFile);
+
         JMenu Helpme = new JMenu("Help?"); 
         JMenu filMenu = new JMenu("File");
         JMenu find = new JMenu("Find");
@@ -87,10 +92,14 @@ public class LAUNCH extends JFrame{
         bar.add(find);
         bar.add(Helpme);
 
-        JMenuItem findItem = new JMenuItem("Find");
+        JMenuItem findItem = new JMenuItem("search for saved string data");
+        JMenuItem changeFilePath = new JMenuItem("Change the default file or load new file");
+
 
         findItem.addActionListener(new FUNCTION_ADD_MENU_QUERY());
+        changeFilePath.addActionListener(new FUNCTION_CHANGE_PATH());
 
+        filMenu.add(changeFilePath);
         find.add(findItem);
 
 
@@ -135,7 +144,7 @@ public class LAUNCH extends JFrame{
         page3.addActionListener(new AllTickets());
         //Opens all Assigned tickets.
 
-        action = new JButton("Last Appended");
+        action = new JButton("ALL DATA");
         action.setBackground(Color.BLACK);
         action.setForeground(Color.WHITE);
         action.addActionListener(new TASK_GET_TEXT_ARRAY());
@@ -273,8 +282,8 @@ public class LAUNCH extends JFrame{
 
             
         try {
-            File file = new File("devyTEXT.txt");
-            Scanner open = new Scanner(file);
+            
+            Scanner open = new Scanner(path);
             int i = 0;
         while(open.hasNextLine()){
             
@@ -314,15 +323,29 @@ public class LAUNCH extends JFrame{
             JOptionPane.showMessageDialog(null, "The search query could not find the requested element ", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         else{
-            JOptionPane.showMessageDialog(null, "The element " + element.get(num-1) + " was found in the program data.", "True", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "The element " + element.get(num-1) + " was found in the program data on line" + num, "True", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }
 
 
 
+//Change the file path on the menu.
+private class FUNCTION_CHANGE_PATH implements ActionListener{
 
+    public void actionPerformed(ActionEvent e){
 
+        JFileChooser FILE_PATH = new JFileChooser();
+        int res = FILE_PATH.showOpenDialog(null); //select file to open
+
+        if(res == JFileChooser.APPROVE_OPTION){
+            pathFile = FILE_PATH.getSelectedFile().getAbsolutePath();
+            JOptionPane.showMessageDialog(null, "The default file was changed successfully", "Success", JOptionPane.OK_OPTION);
+        }
+
+    }
+
+}
 
 
 
@@ -380,7 +403,7 @@ public class LAUNCH extends JFrame{
             SD_MIL TASK_DATA = new SD_MIL();
             if(flag == true) {
             try {
-				JOptionPane.showMessageDialog(null, TASK_DATA.IO_stream("C:\\Packages\\TASK_SD\\devyTEXT.txt"));
+				JOptionPane.showMessageDialog(null, TASK_DATA.IO_stream(pathFile));
 			} catch (HeadlessException | FileNotFoundException e1) {
 				//catch block
 				e1.printStackTrace();
@@ -396,10 +419,10 @@ public class LAUNCH extends JFrame{
             String user;
             Desktop desktop = Desktop.getDesktop();
             user = System.getProperty("user.name");
-            File file = new File("C:\\Packages\\TASK_SD\\devyTEXT.txt");
-                if(file.exists()){
+            
+                if(path.exists()){
                     try {
-						desktop.open(file);
+						desktop.open(path);
 					} catch (IOException e1) {
 						// catch block
 						e1.printStackTrace();
@@ -443,7 +466,7 @@ public class LAUNCH extends JFrame{
                     element.add(data);
                     SD_MIL existingFile = new SD_MIL();
                     if(flag == true) {try {
-						existingFile.fileOpen("C:\\Packages\\TASK_SD\\devyTEXT.txt",data);
+						existingFile.fileOpen(pathFile,data);
 					} catch (IOException e1) {
 						// catch block
 						e1.printStackTrace();
@@ -479,7 +502,7 @@ public class LAUNCH extends JFrame{
                         element.add(data);
                         SD_MIL existingFile = new SD_MIL();
                         if(flag == true) {try {
-                            existingFile.fileOpen("C:\\Packages\\TASK_SD\\devyTEXT.txt",username + ":- " + data + "\t\t- " + date.toString());
+                            existingFile.fileOpen(pathFile,username + ":- " + data + "\t\t- " + date.toString());
                         } catch (IOException e1) {
                             // catch block
                             e1.printStackTrace();
