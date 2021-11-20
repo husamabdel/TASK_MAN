@@ -82,8 +82,7 @@ public class LAUNCH extends JFrame{
     //HOTLINKS (Mostly label components).
 	public void launcher() {
         
-        pathFile = "C:\\Packages\\TASK_SD\\devyTEXT.txt"; //Default File Path
-        path = new File(pathFile);
+
 
         JMenu Helpme = new JMenu("Help?"); 
         JMenu filMenu = new JMenu("File");
@@ -237,6 +236,9 @@ public class LAUNCH extends JFrame{
 
 	public static void FUNCTION_SET_DEFAULT_FILE(){
 		
+        pathFile = "C:\\Packages\\TASK_SD\\devyTEXT.txt"; //Default File Path
+        path = new File(pathFile);
+
 	}
 	
 
@@ -344,6 +346,7 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
 
         if(res == JFileChooser.APPROVE_OPTION){
             pathFile = FILE_PATH.getSelectedFile().getAbsolutePath();
+            path = new File(pathFile);
             JOptionPane.showMessageDialog(null, "The default file was changed successfully", "Success", JOptionPane.OK_OPTION);
         }
 
@@ -624,6 +627,7 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
 
 	public static void main(String[] args) {
         PATH_DATA();
+        FUNCTION_SET_DEFAULT_FILE();
         FUNCTION_LOAD_ELEMENTS();
         new LAUNCH();
         //So far does not work
