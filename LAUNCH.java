@@ -235,6 +235,10 @@ public class LAUNCH extends JFrame{
     }
 
 
+	public static void FUNCTION_SET_DEFAULT_FILE(){
+		
+	}
+	
 
     
  
