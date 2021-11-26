@@ -12,6 +12,8 @@ import java.util.ArrayList;
 //import java.util.Scanner;
 import java.util.Date;
 import java.util.Scanner;
+
+import javax.crypto.SecretKey;
 //import java.util.Random;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -23,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.awt.Desktop.*;
 import java.awt.*;
+import javax.crypto.*;
 
 public class LAUNCH extends JFrame{
 
@@ -50,6 +53,8 @@ public class LAUNCH extends JFrame{
     private static String pathFile;
     private static boolean flag;
     private static ArrayList <String> element = new ArrayList<String>();
+    private static SecretKey key;
+    
 	//GUI Initializer constructor. 
 	public LAUNCH() {
 
@@ -93,11 +98,12 @@ public class LAUNCH extends JFrame{
 
         JMenuItem findItem = new JMenuItem("search for saved string data");
         JMenuItem changeFilePath = new JMenuItem("Change the default file or load new file");
-
+        JMenuItem changeLinks = new JMenuItem();
 
         findItem.addActionListener(new FUNCTION_ADD_MENU_QUERY());
         changeFilePath.addActionListener(new FUNCTION_CHANGE_PATH());
 
+        filMenu.add("Change Link Buttons");
         filMenu.add(changeFilePath);
         find.add(findItem);
 
@@ -313,14 +319,14 @@ public class LAUNCH extends JFrame{
         int num = 0;
         boolean b = true;
         for(int x = 0; x < element.size(); x++){
-
+            
             num++;
             if(element.get(x).contains(QUERY)){
                 b = true;
                 break;
             }
                 else{ b = false;}
-
+           
 
         }
 
@@ -561,6 +567,29 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
                     }
 
                 }
+
+
+
+
+                // Starting cryptographic function to encrypt data.
+
+                public static String FUNCTION_ENCRYPT_ELEMENTS(String data)throws Exception{
+
+                    byte[] dataToEnc = data.getBytes();
+                    Cipher cipher = Cipher.getInstance("AES");
+                    key = KeyGenerator.getInstance("AES").generateKey(); 
+                    
+                    cipher.init(Cipher.ENCRYPT_MODE, key);
+                    cipher.doFinal(dataToEnc);
+                    String Enc = new String(dataToEnc);
+
+                    return Enc;
+                }
+                // Function not in use at the moment.
+
+
+
+
 
 	//Why do I need to return a boolean when I can just check for file Existence? SMH
 	
