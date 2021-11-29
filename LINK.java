@@ -15,15 +15,22 @@ public class LINK{
     private JButton link4 = new JButton("Account creation");
     private JButton remote = new JButton("Remote Desktop");
     private JButton lync = new JButton("Skype");
- 
+
+    // Strings for links, will give access.
+
+    private String linkS1;
+    private String linkS2;
+    private String linkS3;
+    private String linkS4;
+
     public LINK(){
         // TODO Auto-generated method stub
         
     
-
+        LINK_SET();
         frame.setSize(500,350);
         frame.setTitle("HOTLINKS");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new GridLayout(2,3));
         link1.addActionListener(new link11());
         link2.addActionListener(new link22());
@@ -43,11 +50,40 @@ public class LINK{
 
     }
 
+
+    //Init String Links::
+
+    public void LINK_SET(){
+
+        linkS1 = "https://admpvwp01.loc.gov:9443/";
+        linkS2 = "http://ctxadmvwp01/Director/LogOn.aspx?ReturnUrl=%2fDirector%2f&cc=true";
+        linkS3 = "https://staff.loc.gov/wikis/pages/viewpage.action?spaceKey=EA&title=WCC+Approved+Software+List";
+        linkS4 = "http://esevlp01.loc.gov/useraccounts/login";
+
+    }
+
+    public void LINK_SET_1(String linkset1){
+        linkS1 = linkset1;
+    }
+    public void LINK_SET_2(String linkset2){
+        linkS2 = linkset2;
+    }
+    public void LINK_SET_3(String linkset3){
+        linkS3 = linkset3;
+    }
+    public void LINK_SET_4(String linkset4){
+        linkS4 = linkset4;
+    }
+
+
+
+
+
     private class link11 implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
-                URI Ilink = new URI("https://admpvwp01.loc.gov:9443/");
-                java.awt.Desktop.getDesktop().browse(Ilink);
+                URI Ilink1 = new URI(linkS1);
+                java.awt.Desktop.getDesktop().browse(Ilink1);
                 JOptionPane.showMessageDialog(null, "AD Manager page", "Webpage Message", JOptionPane.OK_OPTION);
             }
             catch(Exception x){
@@ -58,8 +94,8 @@ public class LINK{
     private class link22 implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
-                URI Ilink = new URI("http://ctxadmvwp01/Director/LogOn.aspx?ReturnUrl=%2fDirector%2f&cc=true");
-                java.awt.Desktop.getDesktop().browse(Ilink);
+                URI Ilink2 = new URI(linkS2);
+                java.awt.Desktop.getDesktop().browse(Ilink2);
                 JOptionPane.showMessageDialog(null, "Citrix Administrator login", "Webpage Message", JOptionPane.OK_OPTION);
             }
             catch(Exception x){
@@ -70,8 +106,8 @@ public class LINK{
     private class link33 implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
-                URI Ilink = new URI("https://staff.loc.gov/wikis/pages/viewpage.action?spaceKey=EA&title=WCC+Approved+Software+List");
-                java.awt.Desktop.getDesktop().browse(Ilink);
+                URI Ilink3 = new URI(linkS3);
+                java.awt.Desktop.getDesktop().browse(Ilink3);
                 JOptionPane.showMessageDialog(null, "Approved software list!", "Webpage Message", JOptionPane.OK_OPTION);
             }
             catch(Exception x){
@@ -82,8 +118,8 @@ public class LINK{
     private class link44 implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
-                URI Ilink = new URI("http://esevlp01.loc.gov/useraccounts/login");
-                java.awt.Desktop.getDesktop().browse(Ilink);
+                URI Ilink4 = new URI(linkS4);
+                java.awt.Desktop.getDesktop().browse(Ilink4);
                 JOptionPane.showMessageDialog(null, "Account Creation", "Webpage Message", JOptionPane.OK_OPTION);
             }
             catch(Exception x){
