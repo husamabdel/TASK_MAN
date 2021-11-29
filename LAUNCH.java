@@ -20,8 +20,10 @@ import javax.swing.border.*;
 import java.net.URI;
 import java.nio.file.Path;
 import java.awt.event.*;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.awt.Desktop.*;
 import java.awt.*;
@@ -98,12 +100,13 @@ public class LAUNCH extends JFrame{
 
         JMenuItem findItem = new JMenuItem("search for saved string data");
         JMenuItem changeFilePath = new JMenuItem("Change the default file or load new file");
-        JMenuItem changeLinks = new JMenuItem();
+        JMenuItem changeLinks = new JMenuItem("Change Link Buttons");
 
         findItem.addActionListener(new FUNCTION_ADD_MENU_QUERY());
         changeFilePath.addActionListener(new FUNCTION_CHANGE_PATH());
+        changeLinks.addActionListener(new FUNCTION_EDIT_LINK());
 
-        filMenu.add("Change Link Buttons");
+        filMenu.add(changeLinks);
         filMenu.add(changeFilePath);
         find.add(findItem);
 
@@ -556,6 +559,39 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
 
                 }
 
+                private class FUNCTION_EDIT_LINK implements ActionListener{
+
+                    public void actionPerformed(ActionEvent e){
+
+
+                     int response;
+                     String res = JOptionPane.showInputDialog("Please enter the number of the link you would like to change: ");
+
+                        response = Integer.parseInt(res);
+                        if(response == 1){
+                            String ans = JOptionPane.showInputDialog(null, "Please paste the link below", "Link Editor");
+                                LINK linker = new LINK();
+                                linker.LINK_SET_1(ans);
+                        }
+                        else if(response == 2){
+                            String ans = JOptionPane.showInputDialog(null, "Please paste the link below", "Link Editor");
+                                LINK linker = new LINK();
+                                linker.LINK_SET_2(ans);
+                        }
+                        else if(response == 3){
+                            String ans = JOptionPane.showInputDialog(null, "Please paste the link below", "Link Editor");
+                                LINK linker = new LINK();
+                                linker.LINK_SET_3(ans);
+                        }
+                        else if(response == 4){
+                            String ans = JOptionPane.showInputDialog(null, "Please paste the link below", "Link Editor");
+                                LINK linker = new LINK();
+                                linker.LINK_SET_4(ans);
+                        }
+                    }
+                }
+
+
         
 
                 private class TASK_NEW_LINK implements ActionListener{
@@ -588,6 +624,61 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
                 // Function not in use at the moment.
 
 
+
+
+                // Using a secondary thread to ensure new elements are added to the ArrayList during runtime.
+                public static class CLASS_MULTI_THREAD extends Thread{
+
+                    
+                    @Override
+                    public void run(){
+
+                        try{
+                        while(true){
+
+                            FUNCTION_LOAD_ELEMENTS();
+                            FUNCTION_BYTE_DATA();
+                                Thread.sleep(1000);
+                            }
+                        }
+                        catch(Exception e){
+                            JOptionPane.showMessageDialog(null, "An Exception was caught in the secondary Thread!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    
+                    }
+                    // Adding binary data file on second thread to preserve the data.
+                    public void FUNCTION_BYTE_DATA()throws IOException{
+
+                        File bfile = new File("byteFile.dat");
+
+                        if(bfile.exists()){
+
+                            DataOutputStream byteFile = new DataOutputStream(new FileOutputStream(bfile, true));
+                            int x = 0;
+                            for(String S: element){
+    
+                                byteFile.writeUTF(element.get(x));
+                                x++;
+    
+                            }
+
+                        }
+                        else{
+                            DataOutputStream byteFile = new DataOutputStream(new FileOutputStream(bfile));
+                            int x = 0;
+                            for(String S: element){
+    
+                                byteFile.writeUTF(element.get(x));
+                                x++;
+    
+                            }
+                        }
+                      
+
+                    }
+
+
+                }
 
 
 
@@ -658,6 +749,7 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
         PATH_DATA();
         FUNCTION_SET_DEFAULT_FILE();
         FUNCTION_LOAD_ELEMENTS();
+        new CLASS_MULTI_THREAD();
         new LAUNCH();
         //So far does not work
         
