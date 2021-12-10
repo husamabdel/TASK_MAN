@@ -9,8 +9,10 @@ import java.util.Properties;
 //import javax.mail.internet.InternetAddress;
 //import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
+import java.util.Collection;
 //import java.util.Scanner;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import javax.crypto.SecretKey;
@@ -31,7 +33,7 @@ import javax.crypto.*;
 
 public class LAUNCH extends JFrame{
 
-    //All variables, plan is to have a grid layout, three horizontal panels, middle has the ticket adder, bottom has HOTLINKS, Top has.. well.. no plan for that yet.
+    //All variables.
     private JPanel panel;
     private JPanel panel2;
     private JPanel panel3;
@@ -344,6 +346,36 @@ public class LAUNCH extends JFrame{
     }
 
 
+    public static void FUCNTION_QUERY_BINARY(String QUERY){
+
+        HashMap <String, Integer> list = new HashMap<>();
+        int keys = 0;
+        for(String s: element){
+            
+            list.put(element.get(keys), keys);
+
+            keys++;
+        }
+
+        int low = 0;
+        int high = list.size()-1;
+        int mid;
+        while(low < high){
+
+            mid = high/2;
+            if(QUERY.equals(list.get(mid))){  
+                JOptionPane.showMessageDialog(null, "The element " + list.get(mid) + " was found in the program data on line" + mid, "True", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            }
+            else{ 
+                continue; 
+            }
+
+        }
+
+
+    }
+
 
 //Change the file path on the menu.
 private class FUNCTION_CHANGE_PATH implements ActionListener{
@@ -616,8 +648,8 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
                     key = KeyGenerator.getInstance("AES").generateKey(); 
                     
                     cipher.init(Cipher.ENCRYPT_MODE, key);
-                    cipher.doFinal(dataToEnc);
-                    String Enc = new String(dataToEnc);
+                    byte[] c = cipher.doFinal(dataToEnc);
+                    String Enc = new String(c);
 
                     return Enc;
                 }
@@ -627,7 +659,9 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
 
 
                 // Using a secondary thread to ensure new elements are added to the ArrayList during runtime.
-                public static class CLASS_MULTI_THREAD extends Thread{
+                //I have to do this resource-consuming terribleness because the arrayList keeps failing at loading new elements at LN 518.
+                //UPDATE, I am an idiot... I just checked on the program data and it truns out I have a 42 gigabyte file because of this awful code.
+              /*  public static class CLASS_MULTI_THREAD extends Thread{
 
                     
                     @Override
@@ -679,6 +713,8 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
 
 
                 }
+                */
+
 
 
 
@@ -749,9 +785,9 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
         PATH_DATA();
         FUNCTION_SET_DEFAULT_FILE();
         FUNCTION_LOAD_ELEMENTS();
-        new CLASS_MULTI_THREAD();
+        //new CLASS_MULTI_THREAD().start();
         new LAUNCH();
-        //So far does not work
+        
         
 	}
         }
