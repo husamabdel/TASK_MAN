@@ -50,13 +50,14 @@ public class LAUNCH extends JFrame{
     private JButton addTicket;
     private JButton adddate;
 	private JTextField text;
+    private JRadioButton radio;
 	private int width = 700;
     private int height = 550;
     private JMenuBar bar = new JMenuBar();
     private static File path; //Will be used along with file select.
     private static String pathFile;
     private static boolean flag;
-    private static ArrayList <String> element = new ArrayList<String>();
+    public static ArrayList <String> element = new ArrayList<String>();
     private static SecretKey key;
     
 	//GUI Initializer constructor. 
@@ -92,6 +93,9 @@ public class LAUNCH extends JFrame{
 	public void launcher() {
         
 
+
+        radio = new JRadioButton("Stamp with username and date");
+        radio.addActionListener(new TASK_ADD_TICKET_DATE());
 
         JMenu Helpme = new JMenu("Help?"); 
         JMenu filMenu = new JMenu("File");
@@ -193,6 +197,7 @@ public class LAUNCH extends JFrame{
         panel.add(addTicket);
         panel.add(adddate);
         panel.add(text);
+        panel.add(radio);
         
         
         //North Panel
@@ -223,6 +228,14 @@ public class LAUNCH extends JFrame{
 
 	}
     
+
+    //setting accessor method for other classes{
+
+    public ArrayList elments(){
+        return element;
+    }
+
+
 
 //frame function Uses a boolean flag to determin path_data and how to use the NEW_TICKET button.
     public static boolean PATH_DATA(){
