@@ -8,7 +8,7 @@ import java.util.Scanner;
 *       THIS CLASS WILL BE LINKED TO MAIN (LAUNCH)
 *       The main method here is only for testing.
 *       Class will be used to view elements in array from the main.
-*
+*       This gives user way to scroll through the data and inspect in a window other than notepad.
 */
 
 public class VIEW extends JFrame{
@@ -23,7 +23,8 @@ public class VIEW extends JFrame{
     private JScrollPane scrollPane1; // Scroll pane - first list
     private JScrollPane scrollPane2; // Scroll pane - second list
     private JButton button; // A button
-    private DefaultListModel<String> model = new DefaultListModel<>();
+    private static DefaultListModel<String> model = new DefaultListModel<>();
+    private static DefaultListModel<String> model2 = new DefaultListModel<>();
 
 
     public VIEW() throws IOException{
@@ -33,7 +34,7 @@ public class VIEW extends JFrame{
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
-        //this.setSize(500, 500);
+        this.setSize(500, 500);
         this.setResizable(true);
 
         setPanel1();
@@ -54,26 +55,27 @@ public class VIEW extends JFrame{
         public static void setArray() throws IOException{
             
             
-            File file = new File("C:\\Packages\\TASK_SD\\devyTEXT.txt");
+            File file = new File("/home/husam/TASK_LOGGER/task.txt");
             Scanner filein = new Scanner(file);
             if(file.exists()){
 
-                int x = 0;
+               
                 while(filein.hasNextLine()){
 
-                    x++;
+                    model.addElement(filein.nextLine());
 
                 }
-                selected = new String[x];
+                //selected = new String[x];
                     
-                    int y = 0;
+                    //int y = 0;
 
-                    while(filein.hasNextLine()){
+                    //while(filein.hasNextLine()){
 
-                        selected[y] = filein.nextLine();
+                        //selected[y] = filein.nextLine();
 
-                        y++;
-                    }
+                        //y++;
+                    
+    
 
 
             }
@@ -91,7 +93,7 @@ public class VIEW extends JFrame{
         public void setPanel1(){
 
             panel = new JPanel();
-            elementList = new JList<>(selected);
+            elementList = new JList<>(model);
             elementList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
             elementList.setVisibleRowCount(8);
             scrollPane1 = new JScrollPane(elementList);
@@ -99,13 +101,19 @@ public class VIEW extends JFrame{
 
         }
 
+    //After countless hours of trying to get this garbage to work I give up.
+    //I am just glad it even shows up on the screen but something was causing this function call to put the entire 
+    //CONTINUED >> window away.. as if it were a daemon.
+    //The issue for now is that this garbage is not setting up to the specified bounds, it shrinks back to the text size. 12/16/2021.
         public void setPanel2(){
 
-            model.addElement("Default value");
+            model2.addElement("Default value");
             panel2 = new JPanel();
-            selectedElementList = new JList<>(model);
-            selectedElementList.setVisibleRowCount(8);;
+            selectedElementList = new JList<>(model2);
+            selectedElementList.setVisibleRowCount(8);
+            selectedElementList.setBounds(0,0,100,50);
             scrollPane2 = new JScrollPane(selectedElementList);
+            scrollPane2.setBounds(0, 0, 100, 50);
             panel2.add(scrollPane2);
 
         }
@@ -124,7 +132,7 @@ public class VIEW extends JFrame{
             public void actionPerformed(ActionEvent e){
 
                 
-                model.addElement(elementList.getSelectedValue());
+                model2.addElement(elementList.getSelectedValue());
 
             
             }
