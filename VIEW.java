@@ -29,13 +29,13 @@ public class VIEW extends JFrame{
 
     public VIEW() throws IOException{
 
-        
+        setArray();
         this.setTitle("View Data");
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         this.setSize(500, 500);
-        this.setResizable(true);
+        this.setResizable(false);
 
         setPanel1();
         setPanel2();
@@ -55,7 +55,7 @@ public class VIEW extends JFrame{
         public static void setArray() throws IOException{
             
             
-            File file = new File("/home/husam/TASK_LOGGER/task.txt");
+            File file = new File("C:/Packages/TASK_SD/task.txt");
             Scanner filein = new Scanner(file);
             if(file.exists()){
 
@@ -107,10 +107,10 @@ public class VIEW extends JFrame{
     //The issue for now is that this garbage is not setting up to the specified bounds, it shrinks back to the text size. 12/16/2021.
         public void setPanel2(){
 
-            model2.addElement("Default value");
+            model2.addElement("==========================FULL LOG LIST==========================");
             panel2 = new JPanel();
             selectedElementList = new JList<>(model2);
-            selectedElementList.setVisibleRowCount(8);
+            selectedElementList.setVisibleRowCount(15);
             selectedElementList.setBounds(0,0,100,50);
             scrollPane2 = new JScrollPane(selectedElementList);
             scrollPane2.setBounds(0, 0, 100, 50);
@@ -139,13 +139,13 @@ public class VIEW extends JFrame{
 
         }
 
-        public static void main(String[] args) {
+      /*  public static void main(String[] args) {
             
             JOptionPane.showMessageDialog(null, "Thread is running", "alert", JOptionPane.ERROR_MESSAGE);
 
            
             try{
-                setArray();
+                
             new VIEW();
             }
             catch(IOException e){
@@ -156,5 +156,5 @@ public class VIEW extends JFrame{
             }
 
         }
-
+        */
 }
