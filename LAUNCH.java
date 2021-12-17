@@ -49,6 +49,7 @@ public class LAUNCH extends JFrame{
     private JButton action2;
     private JButton addTicket;
     private JButton adddate;
+    private JButton getText;
 	private JTextField text;
     private JRadioButton radio;
 	private int width = 700;
@@ -185,6 +186,9 @@ public class LAUNCH extends JFrame{
         info = new JButton("Help?");
         info.addActionListener(new TASK_GET_INFO_FILE());
 
+        getText = new JButton("List");
+        getText.addActionListener(new TASK_GET_LIST());
+
         //Central panel
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -219,6 +223,7 @@ public class LAUNCH extends JFrame{
         panel4 = new JPanel();
         panel4.setBackground(Color.GRAY);
         panel4.add(more);
+        panel4.add(getText);
         panel4.setBorder(border);
         //West panel.
         panel5 = new JPanel();
@@ -644,6 +649,22 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
                     public void actionPerformed(ActionEvent e){
 
                         new LINK();
+
+                    }
+
+                }
+
+                private class TASK_GET_LIST implements ActionListener{
+
+                    public void actionPerformed(ActionEvent e){
+
+                        try {
+                            new VIEW();
+                        } catch (IOException e1) {
+                            
+                            JOptionPane.showMessageDialog(null, e1.getMessage(), "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
+                            
+                        }
 
                     }
 
