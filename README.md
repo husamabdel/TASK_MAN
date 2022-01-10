@@ -4,7 +4,7 @@
 
 
 /*
-	V1.0.0.2 
+	V1.7.3 
 
 	Program runs but still in development,  (Beta)
 
