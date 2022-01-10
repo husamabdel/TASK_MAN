@@ -61,6 +61,9 @@ public class LAUNCH extends JFrame{
     private static boolean flag2;
     public static ArrayList <String> element = new ArrayList<String>();
     private static SecretKey key;
+
+    private JScrollBar scroll;
+    private JTextArea area;
     
 	//GUI Initializer constructor. 
 	public LAUNCH() {
@@ -129,7 +132,7 @@ public class LAUNCH extends JFrame{
         text.setCaretColor(Color.GREEN);
 
 		label = new JLabel();
-		label.setText("To save the data, please type the text in the text box and click \"SaveTicket\" ");
+		label.setText("To save the data, please type the text in the text box and select and option below. ");
 		label.setIcon(icon);
 		label.setHorizontalTextPosition(JLabel.CENTER);
 		label.setVerticalTextPosition(JLabel.TOP);
@@ -482,6 +485,10 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
     }
 	}
     //For the fouth button, To launch the TXT file.
+    
+
+    /*
+
     private class TASK_GET_TEXT_FILE implements ActionListener{
         public void actionPerformed(ActionEvent e){
 
@@ -503,6 +510,27 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
             }
         }
 
+        */
+
+
+        private class TASK_GET_TEXT_FILE implements ActionListener{
+            public void actionPerformed(ActionEvent e){
+    
+                try {
+                    new textArea(path);
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
+
+                }
+            }
+
+        
+        
+
+            //this old outdated action listener uses Windows Notepad, switched to the one above for later
+            //cross platform support
+        
         private class TASK_GET_INFO_FILE implements ActionListener{
             public void actionPerformed(ActionEvent e){
     
@@ -523,6 +551,8 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
                         }
                 }
             }
+
+            
 
         // Button that appends data to the file.
         private class TASK_ADD_TICKET implements ActionListener{
@@ -558,6 +588,7 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
                             else{
                             System.exit(0);
                             }
+                            text.setText(null);
                         }  
             }
 
@@ -594,6 +625,8 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
                                 else{
                                 System.exit(0);
                                 }
+                            text.setText(null);
+                            
                             }                   
                 }
 
@@ -616,7 +649,13 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
 
                     public void actionPerformed(ActionEvent e){
 
+                        try {
+                            new LINK(true);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
 
+                        /*
                      int response;
                      String res = JOptionPane.showInputDialog("Please enter the number of the link you would like to change: ");
 
@@ -641,6 +680,8 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
                                 LINK linker = new LINK();
                                 linker.LINK_SET_4(ans);
                         }
+
+                        */
                     }
                 }
 
@@ -778,7 +819,7 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
             /*    
                 public void EMAIL_BOT(String data){
 
-                    frame.data = data;
+                    this.data = data;
 
                     String Dest;
                     Dest = JOptionPane.showInputDialog("Who would you like to EMAIL?");
@@ -843,3 +884,4 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
         
 	}
         }
+
