@@ -41,7 +41,7 @@ public textArea(String filename) throws FileNotFoundException{
     
     this.add(scroll);
     this.setTitle("Full Logs");
-	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     this.setSize(950, 550);
     
     //this.pack();
@@ -74,7 +74,7 @@ public textArea(File file) throws FileNotFoundException{
     
     this.add(scroll);
     this.setTitle("Full Logs");
-	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     this.setSize(950, 550);
     
     //this.pack();
