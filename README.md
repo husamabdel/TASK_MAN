@@ -20,7 +20,7 @@
 ###################################################################################
 #			        *INSTRUCTIONS*					  #
 #	"Assuming you did not Create JAR Executable, or you want to modify."	  #
-#	1. Paste the package "TASK_SD" in C:\Packages\				  #
+#	1. Paste the package in C:\Packages\ (Create a directory called packages) #
 #	2. Right click on ticket logger and send to Desktop.			  #
 #	3. Now that you have a desktop shortcut, you may launch the program by 	  #
 #	Double clicking the batch file.						  #
