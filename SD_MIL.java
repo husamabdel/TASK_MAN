@@ -1,5 +1,5 @@
 import java.util.Scanner;
-import java.util.Date; 	//Use date object if you want to fork, for data signature to sign in file!
+//import java.util.Date; 	//Use date object if you want to fork, for data signature to sign in file!
 import java.io.*;
 public class SD_MIL {
 	
@@ -18,11 +18,11 @@ public class SD_MIL {
 		file.close();
 	}
 
-	public void fileStart(String data)throws IOException{
+	public void fileStart(String data, String filename)throws IOException{
 		
 		this.data = data;
 		
-		PrintWriter Outputfile = new PrintWriter("devyTEXT.txt");
+		PrintWriter Outputfile = new PrintWriter(filename);
 		Outputfile.println(data);
 		Outputfile.close();
 		
