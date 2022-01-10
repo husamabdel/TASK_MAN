@@ -4,7 +4,8 @@
 	Program runs but still in development,  (Beta)
 
 	Ticket Logger.
-	Sam Abdalla.
+	Sam Abdalla.![icon3](https://user-images.githubusercontent.com/81593002/148795804-85e81fb6-2597-4c96-a095-8a6316bf6890.PNG)
+
 	
 	CONTACT (habdalla@loc.gov, Husamabdalla98@gmail.com) for suggestions or to report Bugs.
 
