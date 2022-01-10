@@ -58,6 +58,7 @@ public class LAUNCH extends JFrame{
     private static File path; //Will be used along with file select.
     private static String pathFile;
     private static boolean flag;
+    private static boolean flag2;
     public static ArrayList <String> element = new ArrayList<String>();
     private static SecretKey key;
     
@@ -128,7 +129,7 @@ public class LAUNCH extends JFrame{
         text.setCaretColor(Color.GREEN);
 
 		label = new JLabel();
-		label.setText("To save the PCID or ticket number, please type the text in the text box and click \"SaveTicket\" ");
+		label.setText("To save the data, please type the text in the text box and click \"SaveTicket\" ");
 		label.setIcon(icon);
 		label.setHorizontalTextPosition(JLabel.CENTER);
 		label.setVerticalTextPosition(JLabel.TOP);
@@ -221,6 +222,7 @@ public class LAUNCH extends JFrame{
 
         //East Panel
         panel4 = new JPanel();
+        panel4.setLayout(new GridLayout(2,0));
         panel4.setBackground(Color.GRAY);
         panel4.add(more);
         panel4.add(getText);
@@ -250,6 +252,7 @@ public class LAUNCH extends JFrame{
 
         if(ans == 0){
              flag = true;
+             flag2 = true;
       }     
             else if(ans == -1){ System.exit(0);}
             else{flag = false;}    
@@ -541,7 +544,7 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
                             ans = JOptionPane.showInputDialog(null, "Would you like to start a new file?", "FILE_!", JOptionPane.OK_CANCEL_OPTION);
                                 if(ans.equalsIgnoreCase("y") || ans.equalsIgnoreCase("yes")){
                                     try {
-										existingFile.fileStart(data);
+										existingFile.fileStart(data, "devyTEXT.txt");
 									} catch (IOException e1) {
 										//catch block
 										e1.printStackTrace();
@@ -577,7 +580,7 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
                                 ans = JOptionPane.showInputDialog(null, "Would you like to start a new file?", "FILE_!", JOptionPane.OK_CANCEL_OPTION);
                                     if(ans.equalsIgnoreCase("y") || ans.equalsIgnoreCase("yes")){
                                         try {
-                                            existingFile.fileStart(data);
+                                            existingFile.fileStart(data, "devyTEXT.txt");
                                         } catch (IOException e1) {
                                             //catch block
                                             e1.printStackTrace();
@@ -648,8 +651,23 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
 
                     public void actionPerformed(ActionEvent e){
 
-                        new LINK();
+                        if(flag == false){
+                            try {
+                                new LINK(flag2);
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
 
+                        if(flag2 == true){
+                            try {
+                                new LINK("true");
+                            } catch (FileNotFoundException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+
+                        //else{new LINK();}
                     }
 
                 }
