@@ -52,7 +52,7 @@ public class LAUNCH extends JFrame{
     private JButton getText;
 	private JTextField text;
     private JRadioButton radio;
-	private int width = 700;
+	private int width = 950;
     private int height = 550;
     private JMenuBar bar = new JMenuBar();
     private static File path; //Will be used along with file select.
@@ -66,10 +66,9 @@ public class LAUNCH extends JFrame{
 	public LAUNCH() {
 
 		
-		this.setTitle("Ticket Log");
+		this.setTitle("TASK MAN");
 		this.setSize(width,height);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
         this.setBackground(Color.RED);
         this.setLayout(new BorderLayout());
         launcher();
@@ -83,7 +82,8 @@ public class LAUNCH extends JFrame{
         this.add(panel4, BorderLayout.EAST);
         this.add(panel5, BorderLayout.WEST);
         
-        
+        //this.pack();
+        this.setResizable(false);
         this.setJMenuBar(bar);
         this.setVisible(true);
 		
@@ -97,7 +97,7 @@ public class LAUNCH extends JFrame{
 
 
         radio = new JRadioButton("Stamp with username and date");
-        radio.addActionListener(new TASK_ADD_TICKET_DATE());
+        //radio.addActionListener(new TASK_ADD_TICKET_DATE());
 
         JMenu Helpme = new JMenu("Help?"); 
         JMenu filMenu = new JMenu("File");
@@ -121,7 +121,7 @@ public class LAUNCH extends JFrame{
 
         Border border = BorderFactory.createLineBorder(Color.black,3);
 
-		ImageIcon icon = new ImageIcon("icon.png");
+		ImageIcon icon = new ImageIcon("icon3.png");
 		
         text = new JTextField(12);
         text.setBackground(Color.BLACK);
