@@ -39,10 +39,13 @@ public class LAUNCH extends JFrame{
     private JPanel panel3;
     private JPanel panel4;
     private JPanel panel5;
-	private JLabel label;
-	private JButton page;
+	
+    private JLabel label;
+	
+    private JButton page;
 	private JButton page2;
 	private JButton page3;
+    
     private JButton more;
     private JButton info;
     private JButton action;
@@ -50,23 +53,30 @@ public class LAUNCH extends JFrame{
     private JButton addTicket;
     private JButton adddate;
     private JButton getText;
-	private JTextField text;
+	
+    private JTextField text;
     private JRadioButton radio;
 	private int width = 950;
     private int height = 550;
     private JMenuBar bar = new JMenuBar();
+    
     private static File path; //Will be used along with file select.
+    
     private static String pathFile;
+    
     private static boolean flag;
     private static boolean flag2;
-    public static ArrayList <String> element = new ArrayList<String>();
+    
+    public static ArrayList <String> element = new ArrayList<>();
+    public static ArrayList <String> loader = new ArrayList<>();
+
     private static SecretKey key;
 
     private JScrollBar scroll;
     private JTextArea area;
     
 	//GUI Initializer constructor. 
-	public LAUNCH() {
+	public LAUNCH() throws FileNotFoundException {
 
 		
 		this.setTitle("TASK MAN");
@@ -75,6 +85,34 @@ public class LAUNCH extends JFrame{
         this.setBackground(Color.RED);
         this.setLayout(new BorderLayout());
         launcher();
+        pathFile = element.get(0);
+
+        //first panel center component, has text feild 2 buttons and the LOC logo.
+        this.add(panel, BorderLayout.CENTER);
+        //Secone panel, frame has 3 buttons, includes the idaptive page and all service now buttons.
+        this.add(panel2, BorderLayout.NORTH);
+        this.add(panel3, BorderLayout.SOUTH);
+        this.add(panel4, BorderLayout.EAST);
+        this.add(panel5, BorderLayout.WEST);
+        
+        //this.pack();
+        this.setResizable(false);
+        this.setJMenuBar(bar);
+        this.setVisible(true);
+		
+	}
+
+    public LAUNCH(boolean flag) throws IOException {
+
+        SETUP();
+		
+		this.setTitle("TASK MAN");
+		this.setSize(width,height);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setBackground(Color.RED);
+        this.setLayout(new BorderLayout());
+        launcher(flag);
+        pathFile = element.get(0);
 
 
         //first panel center component, has text feild 2 buttons and the LOC logo.
@@ -95,9 +133,9 @@ public class LAUNCH extends JFrame{
     
     
     //HOTLINKS (Mostly label components).
-	public void launcher() {
+	public void launcher() throws FileNotFoundException {
         
-
+        initData();
 
         radio = new JRadioButton("Stamp with username and date");
         //radio.addActionListener(new TASK_ADD_TICKET_DATE());
@@ -145,19 +183,164 @@ public class LAUNCH extends JFrame{
 						*/
         
         
-        page = new JButton("New Ticket!");
+        page = new JButton(loader.get(3));
         page.setBackground(Color.ORANGE);
         page.setForeground(Color.BLACK);
         page.addActionListener(new service());
         //First Button Initialized..
 
-        page2 = new JButton("Idaptive Page");
+        page2 = new JButton(loader.get(4));
         page2.setBackground(Color.GREEN);
         page2.setForeground(Color.BLACK);
         page2.addActionListener(new idaptive());
         //Second Button Initialized.
 
-        page3 = new JButton("Assigned Tickets");
+        page3 = new JButton(loader.get(5));
+        page3.setBackground(Color.ORANGE);
+        page3.setForeground(Color.BLACK);
+        page3.addActionListener(new AllTickets());
+        //Opens all Assigned tickets.
+
+        action = new JButton("ALL DATA");
+        action.setBackground(Color.BLACK);
+        action.setForeground(Color.WHITE);
+        action.addActionListener(new TASK_GET_TEXT_ARRAY());
+        //Third Button Initialized, frame is for the text file data.
+
+        action2 = new JButton("Full Logs");
+        action2.setBackground(Color.WHITE);
+        action2.setForeground(Color.BLACK);
+        action2.addActionListener(new TASK_GET_TEXT_FILE());
+
+        addTicket = new JButton("Save Ticket");
+        addTicket.setBackground(Color.BLUE);
+        addTicket.setForeground(Color.white);
+        addTicket.addActionListener(new TASK_ADD_TICKET());
+
+        adddate = new JButton("WITH DATE");
+        adddate.setBackground(Color.BLUE);
+        adddate.setForeground(Color.WHITE);
+        adddate.addActionListener(new TASK_ADD_TICKET_DATE());
+
+        more = new JButton("links");
+        more.addActionListener(new TASK_NEW_LINK());
+
+        info = new JButton("Help?");
+        info.addActionListener(new TASK_GET_INFO_FILE());
+
+        getText = new JButton("List");
+        getText.addActionListener(new TASK_GET_LIST());
+
+        //Central panel
+        panel = new JPanel();
+        panel.setBackground(Color.WHITE);
+        //panel.add(page3); *
+        panel.add(label);
+        //panel.add(page); *
+        //panel.add(page2); *
+        //panel.add(action);
+        //panel.add(action2);
+        panel.add(addTicket);
+        panel.add(adddate);
+        panel.add(text);
+        panel.add(radio);
+        
+        
+        //North Panel
+        panel2 = new JPanel();
+        panel2.setBackground(Color.ORANGE);
+        panel2.add(page);
+        panel2.add(page2);
+        panel2.add(page3);
+        panel2.setBorder(border);
+
+        //South panel
+        panel3 = new JPanel();
+        panel3.setBackground(Color.ORANGE);
+        panel3.add(action);
+        panel3.add(action2);
+        panel3.setBorder(border);
+
+        //East Panel
+        panel4 = new JPanel();
+        panel4.setLayout(new GridLayout(2,0));
+        panel4.setBackground(Color.GRAY);
+        panel4.add(more);
+        panel4.add(getText);
+        panel4.setBorder(border);
+        //West panel.
+        panel5 = new JPanel();
+        panel5.setBackground(Color.GRAY);
+        panel5.add(info);
+        panel5.setBorder(border);
+
+	}
+
+
+    public void launcher(boolean flag) throws FileNotFoundException {
+
+
+        initData();
+
+        radio = new JRadioButton("Stamp with username and date");
+        //radio.addActionListener(new TASK_ADD_TICKET_DATE());
+
+        JMenu Helpme = new JMenu("Help?"); 
+        JMenu filMenu = new JMenu("File");
+        JMenu find = new JMenu("Find");
+        bar.add(filMenu);
+        bar.add(find);
+        bar.add(Helpme);
+
+        JMenuItem findItem = new JMenuItem("search for saved string data");
+        JMenuItem changeFilePath = new JMenuItem("Change the default file or load new file");
+        JMenuItem changeLinks = new JMenuItem("Change Link Buttons");
+
+        findItem.addActionListener(new FUNCTION_ADD_MENU_QUERY());
+        changeFilePath.addActionListener(new FUNCTION_CHANGE_PATH());
+        changeLinks.addActionListener(new FUNCTION_EDIT_LINK());
+
+        filMenu.add(changeLinks);
+        filMenu.add(changeFilePath);
+        find.add(findItem);
+
+
+        Border border = BorderFactory.createLineBorder(Color.black,3);
+
+		ImageIcon icon = new ImageIcon("icon3.png");
+		
+        text = new JTextField(12);
+        text.setBackground(Color.BLACK);
+        text.setForeground(Color.WHITE);
+        text.setCaretColor(Color.GREEN);
+
+		label = new JLabel();
+		label.setText("To save the data, please type the text in the text box and select and option below. ");
+		label.setIcon(icon);
+		label.setHorizontalTextPosition(JLabel.CENTER);
+		label.setVerticalTextPosition(JLabel.TOP);
+		
+		/* 
+						
+    TODO: Add a layout manager to align elements in a better position Must
+    also add more buttons, maybe with custom Icons.
+				
+						*/
+        
+        
+        page = new JButton(loader.get(3));
+        page.setBackground(Color.ORANGE);
+        page.setForeground(Color.BLACK);
+        page.addActionListener(new service());
+        //First Button Initialized..
+
+        page2 = new JButton(loader.get(4));
+        page2.setBackground(Color.GREEN);
+        page2.setForeground(Color.BLACK);
+        page2.addActionListener(new idaptive());
+        //Second Button Initialized.
+
+        page3 = new JButton(loader.get(5));
         page3.setBackground(Color.ORANGE);
         page3.setForeground(Color.BLACK);
         page3.addActionListener(new AllTickets());
@@ -256,6 +439,7 @@ public class LAUNCH extends JFrame{
         if(ans == 0){
              flag = true;
              flag2 = true;
+             path = new File("ALL_TASK_DATAS.txt");
       }     
             else if(ans == -1){ System.exit(0);}
             else{flag = false;}    
@@ -267,6 +451,65 @@ public class LAUNCH extends JFrame{
           //  else{flag = false;}
         return flag;
     }
+
+
+    public static void SETUP() throws IOException{
+
+        JOptionPane.showMessageDialog(null, "Welcome to TASK MAN! the setup process will now proceed", "SETUP", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "There are three hotlink buttons you can configure to launch you favoite sites", "SETUP", JOptionPane.OK_OPTION);
+        JOptionPane.showMessageDialog(null, "When prompted, please enter the link, and the button name!", "SETUP", JOptionPane.OK_OPTION);
+
+        
+        
+        String linknum1 = JOptionPane.showInputDialog("Please enter the first link:");
+        String name1 = JOptionPane.showInputDialog("Please enter the link name:");
+
+        String linknum2 = JOptionPane.showInputDialog("Please enter the second link:");
+        String name2 = JOptionPane.showInputDialog("Please enter the link name:");
+
+        String linknum3 = JOptionPane.showInputDialog("Please enter the third link:");
+        String name3 = JOptionPane.showInputDialog("Please enter the link name:");
+
+
+        SD_MIL IO = new SD_MIL();
+
+        String ButtonFileName = "Launch_Buttons.txt";
+
+        IO.fileStart(linknum1, ButtonFileName);
+
+        IO.fileOpen(ButtonFileName, linknum2);
+        IO.fileOpen(ButtonFileName, linknum3);
+  
+        IO.fileOpen(ButtonFileName, name1);
+        IO.fileOpen(ButtonFileName, name2);
+        IO.fileOpen(ButtonFileName, name3);
+
+        pathFile = "ALL_TASK_DATAS.txt";
+        IO.fileStart(pathFile, pathFile);
+
+        pathFile = "ALL_TASK_DATAS.txt";
+        path = new File(pathFile);
+
+
+
+    }
+
+
+
+    public void initData() throws FileNotFoundException{
+
+        File file = new File("Launch_Buttons.txt");
+        Scanner input = new Scanner(file);
+
+        while(input.hasNextLine()){
+            loader.add(input.nextLine());
+        }
+
+
+
+    }
+
+
 
 
 	public static void FUNCTION_SET_DEFAULT_FILE(){
@@ -434,7 +677,7 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
 	private class service implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
-			    URI link = new URI("https://loc.servicenowservices.com/nav_to.do?uri=%2Fincident.do%3Fsys_id%3D-1%26sysparm_query%3Dactive%3Dtrue%26sysparm_stack%3Dincident_list.do%3Fsysparm_query%3Dactive%3Dtrue");
+			    URI link = new URI(loader.get(0));
                 java.awt.Desktop.getDesktop().browse(link);
 			    JOptionPane.showMessageDialog(null, "New Ticket Page launched!", "Webpage Message", JOptionPane.ERROR_MESSAGE);}
 			catch(Exception d){
@@ -446,7 +689,7 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
 	private class idaptive implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
-                URI Ilink = new URI("https://loc.my.idaptive.app/my#TXlBcHBz");
+                URI Ilink = new URI(loader.get(1));
                 java.awt.Desktop.getDesktop().browse(Ilink);
                 JOptionPane.showMessageDialog(null, "Idaptive Page Lauched!", "Webpage Message", JOptionPane.OK_OPTION);
             }
@@ -459,7 +702,7 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
     private class AllTickets implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
-                URI Ilink = new URI("https://loc.servicenowservices.com/nav_to.do?uri=%2F$pa_dashboard.do%3Fsysparm_dashboard%3D1157e7c01b89a050bbd1a8eae54bcb02%26sysparm_tab%3D91576bc01b89a050bbd1a8eae54bcb9a");
+                URI Ilink = new URI(loader.get(2));
                 java.awt.Desktop.getDesktop().browse(Ilink);
                 JOptionPane.showMessageDialog(null, "All Assigned tickets!", "Webpage Message", JOptionPane.OK_OPTION);
             }
@@ -874,13 +1117,18 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
                 }
                     */
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
         PATH_DATA();
-        FUNCTION_SET_DEFAULT_FILE();
         FUNCTION_LOAD_ELEMENTS();
+       
+        if(flag == false){
+            new LAUNCH(flag);
+
+        }
+        //FUNCTION_SET_DEFAULT_FILE();
         //new CLASS_MULTI_THREAD().start();
-        new LAUNCH();
-        
+        else{new LAUNCH();
+        }
         
 	}
         }
