@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.awt.datatransfer.Clipboard;
 /*
 *       THIS CLASS WILL BE LINKED TO MAIN (LAUNCH)
 *       The main method here is only for testing.
@@ -24,6 +25,7 @@ public class VIEW extends JFrame{
     private JScrollPane scrollPane2; // Scroll pane - second list
     private JScrollPane scrollPane;
     private JButton button; // A button
+    private JButton clear;
     private static DefaultListModel<String> model = new DefaultListModel<>();
     private static DefaultListModel<String> model2 = new DefaultListModel<>();
     private JMenuBar bar;
@@ -37,7 +39,7 @@ public class VIEW extends JFrame{
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
         this.setSize(500, 500);
-        this.setResizable(true);
+        this.setResizable(false);
 
         setPanel1();
         setPanel2();
@@ -46,7 +48,6 @@ public class VIEW extends JFrame{
         this.add(panel, BorderLayout.NORTH);
         this.add(panel2, BorderLayout.CENTER);
         this.add(panel3, BorderLayout.SOUTH);
-
         this.setVisible(true);
 
 
@@ -149,8 +150,11 @@ public class VIEW extends JFrame{
 
             panel3 = new JPanel();
             button = new JButton("Show Item");
+            clear = new JButton("clear");
             button.addActionListener(new SHOW_ITEM());
+            clear.addActionListener(new CLEAR());
             panel3.add(button);
+            panel3.add(clear);
 
         }
 
@@ -166,6 +170,17 @@ public class VIEW extends JFrame{
             }
 
         }
+
+        private class CLEAR implements ActionListener{
+
+            public void actionPerformed(ActionEvent e){
+
+                model2.clear();
+
+            }
+
+        }
+
 
         /*
         public static void main(String[] args) {
