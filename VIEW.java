@@ -13,8 +13,8 @@ import java.util.Scanner;
 
 public class VIEW extends JFrame{
 
-    
-    public static String[] selected;
+    public String[] axis;
+    public static ArrayList<String> selected;
     private JPanel panel;
     private JPanel panel2;
     private JPanel panel3;
@@ -22,9 +22,11 @@ public class VIEW extends JFrame{
     private JList<String> selectedElementList; // Selected months
     private JScrollPane scrollPane1; // Scroll pane - first list
     private JScrollPane scrollPane2; // Scroll pane - second list
+    private JScrollPane scrollPane;
     private JButton button; // A button
     private static DefaultListModel<String> model = new DefaultListModel<>();
     private static DefaultListModel<String> model2 = new DefaultListModel<>();
+    private JMenuBar bar;
 
 
     public VIEW() throws IOException{
@@ -32,10 +34,10 @@ public class VIEW extends JFrame{
         setArray();
         this.setTitle("View Data");
         this.setLayout(new BorderLayout());
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
         this.setSize(500, 500);
-        this.setResizable(false);
+        this.setResizable(true);
 
         setPanel1();
         setPanel2();
@@ -55,30 +57,37 @@ public class VIEW extends JFrame{
         public static void setArray() throws IOException{
             
             
-            File file = new File("C:/Packages/TASK_SD/task.txt");
+            File file = new File("C:/Packages/TASK_SD/devyTEXT.txt");
             Scanner filein = new Scanner(file);
             if(file.exists()){
 
-               
+
+
+                selected = new ArrayList <>();
+                    
+                int y2 = 0;
+
                 while(filein.hasNextLine()){
 
-                    model.addElement(filein.nextLine());
+                    selected.add(filein.nextLine());
+
+                    y2++;
+                }
+
+
+
+                int y = 0;
+               
+                while(y<selected.size()){
+
+                    //model.addElement(filein.nextLine());
+
+                    model.addElement(String.valueOf(y));
+
+                    y++;
+                }
 
                 }
-                //selected = new String[x];
-                    
-                    //int y = 0;
-
-                    //while(filein.hasNextLine()){
-
-                        //selected[y] = filein.nextLine();
-
-                        //y++;
-                    
-    
-
-
-            }
                 else{
 
                     JOptionPane.showMessageDialog(null, "Could not load data from the file!", "FileNotFoundException", JOptionPane.ERROR);
@@ -90,13 +99,31 @@ public class VIEW extends JFrame{
     
     }
 
+    
+
+        public void setMenu(){
+
+            bar = new JMenuBar();
+            JMenu menu = new JMenu("file");
+            JMenuItem item =  new JMenuItem("Find Element");
+
+
+            menu.add(item);
+            bar.add(menu);
+
+        }
+
+
+
+
         public void setPanel1(){
 
             panel = new JPanel();
             elementList = new JList<>(model);
             elementList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
             elementList.setVisibleRowCount(8);
-            scrollPane1 = new JScrollPane(elementList);
+            scrollPane1 = new JScrollPane(elementList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            
             panel.add(scrollPane1);
 
         }
@@ -131,15 +158,17 @@ public class VIEW extends JFrame{
 
             public void actionPerformed(ActionEvent e){
 
+                int item = elementList.getSelectedIndex();
                 
-                model2.addElement(elementList.getSelectedValue());
-
+                model2.addElement(selected.get(item));
+                
             
             }
 
         }
 
-      /*  public static void main(String[] args) {
+        /*
+        public static void main(String[] args) {
             
             JOptionPane.showMessageDialog(null, "Thread is running", "alert", JOptionPane.ERROR_MESSAGE);
 
@@ -152,9 +181,9 @@ public class VIEW extends JFrame{
 
                 JOptionPane.showMessageDialog(null, e.getMessage(), "alert", JOptionPane.ERROR_MESSAGE);
 
-
             }
 
         }
         */
+        
 }
