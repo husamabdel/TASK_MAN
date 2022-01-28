@@ -58,7 +58,7 @@ public class VIEW extends JFrame{
         public static void setArray() throws IOException{
             
             
-            File file = new File("C:/Packages/TASK_SD/devyTEXT.txt");
+            File file = new File("ALL_TASK_DATAS.txt");
             Scanner filein = new Scanner(file);
             if(file.exists()){
 
