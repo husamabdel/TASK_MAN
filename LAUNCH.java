@@ -285,7 +285,7 @@ public class LAUNCH extends JFrame{
         radio = new JRadioButton("Stamp with username and date");
         //radio.addActionListener(new TASK_ADD_TICKET_DATE());
 
-        JMenu Helpme = new JMenu("Help?"); 
+ JMenu Helpme = new JMenu("Help?"); 
         JMenu filMenu = new JMenu("File");
         JMenu find = new JMenu("Find");
         bar.add(filMenu);
@@ -295,14 +295,20 @@ public class LAUNCH extends JFrame{
         JMenuItem findItem = new JMenuItem("search for saved string data");
         JMenuItem changeFilePath = new JMenuItem("Change the default file or load new file");
         JMenuItem changeLinks = new JMenuItem("Change Link Buttons");
+        JMenuItem exit = new JMenuItem("Exit");
+        JMenuItem currentFile = new JMenuItem("Open current data file (in .txt format)");
 
         findItem.addActionListener(new FUNCTION_ADD_MENU_QUERY());
         changeFilePath.addActionListener(new FUNCTION_CHANGE_PATH());
         changeLinks.addActionListener(new FUNCTION_EDIT_LINK());
+        currentFile.addActionListener(new TASK_GET_TEXT_FILE2());
+        exit.addActionListener(new TASK_EXIT());
 
         filMenu.add(changeLinks);
         filMenu.add(changeFilePath);
-        find.add(findItem);
+        filMenu.add(currentFile);
+        filMenu.add(exit);
+
 
 
         Border border = BorderFactory.createLineBorder(Color.black,3);
@@ -754,6 +760,30 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
         }
 
         */
+	
+	
+	 private class TASK_GET_TEXT_FILE2 implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+
+            String user;
+            Desktop desktop = Desktop.getDesktop();
+            user = System.getProperty("user.name");
+            
+                if(path.exists()){
+                    try {
+						desktop.open(path);
+					} catch (IOException e1) {
+						// catch block
+						e1.printStackTrace();
+					}
+                }
+                    else{
+                            JOptionPane.showMessageDialog(null, "Warning! File Does not Exist","", JOptionPane.ERROR_MESSAGE);
+                    }
+            }
+        }
+	
+	
 
 
         private class TASK_GET_TEXT_FILE implements ActionListener{
@@ -971,6 +1001,16 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
                     }
 
                 }
+	
+	                private class TASK_EXIT implements ActionListener{
+
+                    public void actionPerformed(ActionEvent e){
+
+                        System.exit(0);
+
+                    }
+
+                }
 
 
 
@@ -1119,15 +1159,16 @@ private class FUNCTION_CHANGE_PATH implements ActionListener{
 
 	public static void main(String[] args) throws IOException {
         PATH_DATA();
-        FUNCTION_LOAD_ELEMENTS();
        
         if(flag == false){
             new LAUNCH(flag);
-
+		
         }
         //FUNCTION_SET_DEFAULT_FILE();
         //new CLASS_MULTI_THREAD().start();
-        else{new LAUNCH();
+        else{
+		FUNCTION_LOAD_ELEMENTS();
+		new LAUNCH();
         }
         
 	}
